@@ -50,7 +50,7 @@ function NavbarStyle1Content(props) {
         <Navigation layout="vertical" />
 
         <div className="flex flex-0 items-center justify-center py-48 opacity-10">
-          <img className="w-full max-w-200" src="assets/images/logo/azalyLogo.png" alt="footer logo" />
+          <img className="w-full max-w-200" src={process.env.PUBLIC_URL + "/assets/images/logo/azalyLogo.png"} alt="footer logo" />
         </div>
       </StyledContent>
     </Root>

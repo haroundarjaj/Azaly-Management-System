@@ -10,14 +10,12 @@ const Root = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   color: theme.palette.text.primary,
   '& ::-webkit-scrollbar-thumb': {
-    boxShadow: `inset 0 0 0 20px ${
-      theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.24)' : 'rgba(255, 255, 255, 0.24)'
-    }`,
+    boxShadow: `inset 0 0 0 20px ${theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.24)' : 'rgba(255, 255, 255, 0.24)'
+      }`,
   },
   '& ::-webkit-scrollbar-thumb:active': {
-    boxShadow: `inset 0 0 0 20px ${
-      theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.37)' : 'rgba(255, 255, 255, 0.37)'
-    }`,
+    boxShadow: `inset 0 0 0 20px ${theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.37)' : 'rgba(255, 255, 255, 0.37)'
+      }`,
   },
 }));
 
@@ -36,8 +34,8 @@ const StyledContent = styled(FuseScrollbars)(({ theme }) => ({
 function NavbarStyle2Content(props) {
   return (
     <Root className={clsx('flex flex-auto flex-col overflow-hidden h-full', props.className)}>
-      <div className="flex flex-row items-center shrink-0 h-48 md:h-76 px-12">
-        <div className="flex flex-1 mx-4">
+      <div className="flex flex-row items-center justify-between shrink-0 h-48 md:h-76 px-2">
+        <div className="flex flex-none mx-1">
           <Logo />
         </div>
 

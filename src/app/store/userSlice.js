@@ -57,7 +57,7 @@ export const logoutUser = () => async (dispatch, getState) => {
   }
 
   history.push({
-    pathname: '/',
+    pathname: '/sign-in',
   });
 
   dispatch(setInitialSettings());
@@ -85,7 +85,7 @@ const initialState = {
   role: [], // guest
   data: {
     displayName: 'John Doe',
-    photoURL: 'assets/images/avatars/brian-hughes.jpg',
+    photoURL: process.env.PUBLIC_URL + '/assets/images/avatars/brian-hughes.jpg',
     email: 'johndoe@withinpixels.com',
     shortcuts: ['apps.calendar', 'apps.mailbox', 'apps.contacts', 'apps.tasks'],
   },

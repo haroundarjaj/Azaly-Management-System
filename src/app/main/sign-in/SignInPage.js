@@ -16,6 +16,9 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { useEffect } from 'react';
 import jwtService from '../../auth/services/jwtService';
+import axios from 'axios';
+import AuthService from 'src/app/services/AuthService';
+import * as CryptoJS from 'crypto-js';
 
 /**
  * Form Validation Schema
@@ -44,13 +47,20 @@ function SignInPage() {
   const { isValid, dirtyFields, errors } = formState;
 
   useEffect(() => {
-    setValue('email', 'admin@fusetheme.com', { shouldDirty: true, shouldValidate: true });
-    setValue('password', 'admin', { shouldDirty: true, shouldValidate: true });
+    setValue('email', 'super@admin.com', { shouldDirty: true, shouldValidate: true });
+    setValue('password', 'azalySuperAdmin', { shouldDirty: true, shouldValidate: true });
   }, [setValue]);
 
   function onSubmit({ email, password }) {
+    console.log(process.env.REACT_APP_PASSWORD_SECRET_KEY)
+    console.log(process.env)
+    const key = CryptoJS.enc.Latin1.parse(process.env.REACT_APP_PASSWORD_SECRET_KEY);
+    var iv = CryptoJS.enc.Latin1.parse('0000000000000000');
+    var aesOptions = { mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7, iv: iv };
+    var passEncoded = CryptoJS.enc.Utf8.parse(password);
+    let encryptdPass = CryptoJS.AES.encrypt(passEncoded, key, aesOptions).toString();
     jwtService
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmail(email, encryptdPass)
       .then((user) => {
         // No need to do anything, user data will be set at app/auth/AuthContext
       })
@@ -62,24 +72,32 @@ function SignInPage() {
           });
         });
       });
+    /* const credentials = { email, password };
+     console.log(`${process.env.API_URL}/login`)
+     console.log(process.env.API_URL)
+     AuthService.login(credentials).then(response => {
+       console.log(response)
+       const AUTH_TOKEN = response.data.token;
+       localStorage.setItem('jwt_access_token', AUTH_TOKEN);
+       axios.defaults.headers.common.Authorization = `Bearer ${AUTH_TOKEN}`;
+       localStorage.setItem('user', JSON.stringify(response.data.data.user));
+     }).catch(error => {
+       console.log(error)
+       if (error.response?.data?.message === "WRONG_CREDENTIALS") {
+         console.log(error.response?.data?.message)
+       }
+     }); */
   }
 
   return (
     <div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-1 min-w-0">
-      <Paper className="h-full sm:h-auto md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none ltr:border-r-1 rtl:border-l-1">
+      <Paper className="h-full sm:h-auto md:flex md:items-center md:justify-center w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none ltr:border-r-1 rtl:border-l-1">
         <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
-          <img className="w-48" src="assets/images/logo/azalyLogoDark.png" alt="logo" />
+          <img className="w-48" src={process.env.PUBLIC_URL + "/assets/images/logo/azalyLogoDark.png"} alt="logo" />
 
           <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
             Sign in
           </Typography>
-          <div className="flex items-baseline mt-2 font-medium">
-            <Typography>Don't have an account?</Typography>
-            <Link className="ml-4" to="/sign-up">
-              Sign up
-            </Link>
-          </div>
-
           <form
             name="loginForm"
             noValidate
@@ -122,26 +140,6 @@ function SignInPage() {
                 />
               )}
             />
-
-            <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between">
-              <Controller
-                name="remember"
-                control={control}
-                render={({ field }) => (
-                  <FormControl>
-                    <FormControlLabel
-                      label="Remember me"
-                      control={<Checkbox size="small" {...field} />}
-                    />
-                  </FormControl>
-                )}
-              />
-
-              <Link className="text-md font-medium" to="/pages/auth/forgot-password">
-                Forgot password?
-              </Link>
-            </div>
-
             <Button
               variant="contained"
               color="secondary"
@@ -153,32 +151,6 @@ function SignInPage() {
             >
               Sign in
             </Button>
-
-            <div className="flex items-center mt-32">
-              <div className="flex-auto mt-px border-t" />
-              <Typography className="mx-8" color="text.secondary">
-                Or continue with
-              </Typography>
-              <div className="flex-auto mt-px border-t" />
-            </div>
-
-            <div className="flex items-center mt-32 space-x-16">
-              <Button variant="outlined" className="flex-auto">
-                <FuseSvgIcon size={20} color="action">
-                  feather:facebook
-                </FuseSvgIcon>
-              </Button>
-              <Button variant="outlined" className="flex-auto">
-                <FuseSvgIcon size={20} color="action">
-                  feather:twitter
-                </FuseSvgIcon>
-              </Button>
-              <Button variant="outlined" className="flex-auto">
-                <FuseSvgIcon size={20} color="action">
-                  feather:github
-                </FuseSvgIcon>
-              </Button>
-            </div>
           </form>
         </div>
       </Paper>
@@ -232,31 +204,14 @@ function SignInPage() {
         </Box>
 
         <div className="z-10 relative w-full max-w-2xl">
-          <div className="text-7xl font-bold leading-none text-gray-100">
+          <div className="logo" style={{ display: 'flex', justifyContent: 'center', marginBottom: 50 }}>
+            <img width="250" src={process.env.PUBLIC_URL + '/assets/images/logo/azalyLogo.png'} alt="logo" />
+          </div>
+          <div className="pt-50 text-5xl font-bold leading-none text-gray-100">
             <div>Welcome to</div>
-            <div>our community</div>
           </div>
-          <div className="mt-24 text-lg tracking-tight leading-6 text-gray-400">
-            Fuse helps developers to build organized and well coded dashboards full of beautiful and
-            rich modules. Join us and start building your application today.
-          </div>
-          <div className="flex items-center mt-32">
-            <AvatarGroup
-              sx={{
-                '& .MuiAvatar-root': {
-                  borderColor: 'primary.main',
-                },
-              }}
-            >
-              <Avatar src="assets/images/avatars/female-18.jpg" />
-              <Avatar src="assets/images/avatars/female-11.jpg" />
-              <Avatar src="assets/images/avatars/male-09.jpg" />
-              <Avatar src="assets/images/avatars/male-16.jpg" />
-            </AvatarGroup>
-
-            <div className="ml-16 font-medium tracking-tight text-gray-400">
-              More than 17k people joined us, it's your turn
-            </div>
+          <div className="text-4xl font-bold leading-none text-gray-100">
+            <div>Azaly Management App</div>
           </div>
         </div>
       </Box>

@@ -1,6 +1,7 @@
 import FuseUtils from '@fuse/utils/FuseUtils';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import AuthService from 'src/app/services/AuthService';
 import jwtServiceConfig from './jwtServiceConfig';
 
 /* eslint-disable camelcase */
@@ -18,7 +19,10 @@ class JwtService extends FuseUtils.EventEmitter {
       },
       (err) => {
         return new Promise((resolve, reject) => {
-          if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
+          if (err.response?.data?.message === "WRONG_CREDENTIALS") {
+            this.emit('onAutoLogout', 'WRONG_CREDENTIALS');
+          }
+          else if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
             // if you ever get an unauthorized response, logout the user
             this.emit('onAutoLogout', 'Invalid access_token');
             this.setSession(null);
@@ -43,7 +47,7 @@ class JwtService extends FuseUtils.EventEmitter {
       this.emit('onAutoLogin', true);
     } else {
       this.setSession(null);
-      this.emit('onAutoLogout', 'access_token expired');
+      this.emit('onAutoLogout', 'Session expired');
     }
   };
 
@@ -61,47 +65,21 @@ class JwtService extends FuseUtils.EventEmitter {
     });
   };
 
-  signInWithEmailAndPassword = (email, password) => {
+  signInWithEmail = (email, password) => {
     return new Promise((resolve, reject) => {
-      axios
-        .get(jwtServiceConfig.signIn, {
-          data: {
-            email,
-            password,
-          },
-        })
+      AuthService.login({
+        username: email,
+        password,
+      })
         .then((response) => {
-          if (response.data.user) {
-            this.setSession(response.data.access_token);
-            resolve(response.data.user);
+          console.log(response)
+          if (response.data) {
+            this.setSession(response.data.token);
+            resolve(response.data);
             this.emit('onLogin', response.data.user);
           } else {
             reject(response.data.error);
           }
-        });
-    });
-  };
-
-  signInWithToken = () => {
-    return new Promise((resolve, reject) => {
-      axios
-        .get(jwtServiceConfig.accessToken, {
-          data: {
-            access_token: this.getAccessToken(),
-          },
-        })
-        .then((response) => {
-          if (response.data.user) {
-            this.setSession(response.data.access_token);
-            resolve(response.data.user);
-          } else {
-            this.logout();
-            reject(new Error('Failed to login with token.'));
-          }
-        })
-        .catch((error) => {
-          this.logout();
-          reject(new Error('Failed to login with token.'));
         });
     });
   };
@@ -117,7 +95,9 @@ class JwtService extends FuseUtils.EventEmitter {
       localStorage.setItem('jwt_access_token', access_token);
       axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
     } else {
+      console.log("remove token")
       localStorage.removeItem('jwt_access_token');
+      localStorage.removeItem('user');
       delete axios.defaults.headers.common.Authorization;
     }
   };

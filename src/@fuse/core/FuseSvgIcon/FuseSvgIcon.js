@@ -31,7 +31,6 @@ const FuseSvgIcon = forwardRef((props, ref) => {
   }
 
   const iconPath = props.children.replace(':', '.svg#');
-
   return (
     <Root
       {...props}
@@ -45,7 +44,7 @@ const FuseSvgIcon = forwardRef((props, ref) => {
       sx={props.sx}
       color={props.color}
     >
-      <use xlinkHref={`assets/icons/${iconPath}`} />
+      <use xlinkHref={`${process.env.PUBLIC_URL}/assets/icons/${iconPath}`} />
     </Root>
   );
 });

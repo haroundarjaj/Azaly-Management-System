@@ -2,15 +2,19 @@
 <html lang='en'>
     <head>
         <meta charset='utf-8'>
-        <meta name='description' content='Fuse React - Material design admin template with pre-built apps and pages'>
+        <meta name='description' content='Azaly Management App'>
         <meta name='keywords'
               content='React,Redux,Material UI Next,Material,Material Design,Google Material Design,HTML,CSS,Firebase,Authentication,Material Redux Theme,Material Redux Template'>
         <meta name='author' content='Withinpixels'>
         <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
         <meta name='theme-color' content='#000000'>
-        <base href='/'>
 
         <link href='%PUBLIC_URL%/assets/tailwind-base.css' rel='stylesheet'>
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+        <link href="https://unpkg.com/ionicons@3.0.0/dist/css/ionicons.min.css" rel="stylesheet" />
+
 
         <!--
           manifest.json provides metadata used when your web app is added to the
@@ -41,7 +45,7 @@
           work correctly both with client-side routing and a non-root public URL.
           Learn how to configure a non-root public URL by running `npm run build`.
         -->
-        <title>Fuse React - Material Design Admin Template</title>
+        <title>Azaly Management App</title>
 
         <!-- FUSE Splash Screen CSS -->
         <style>
@@ -55,13 +59,13 @@
                 left: 0;
                 right: 0;
                 bottom: 0;
-                background-color: #111827;
+                background-color: #282828;
                 color: #F9FAFB;
                 z-index: 999999;
                 pointer-events: none;
                 opacity: 1;
                 visibility: visible;
-                transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
+                transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
             }
 
             body #fuse-splash-screen img {
@@ -131,7 +135,7 @@
         <!-- FUSE Splash Screen -->
         <div id='fuse-splash-screen'>
             <div class='logo'>
-                <img width='128' src='assets/images/logo/azalyLogo.png' alt='logo'>
+                <img width='128' src='%PUBLIC_URL%/assets/images/logo/azalyLogo.png' alt='logo'>
             </div>
             <div id='spinner'>
                 <div class='bounce1'></div>

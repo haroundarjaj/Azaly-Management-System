@@ -58,7 +58,7 @@ const Root = styled('div')(({ theme }) => ({
 
 function FuseSettings(props) {
   const dispatch = useDispatch();
-  const user = useSelector(selectUser);
+  const user = JSON.parse(localStorage.getItem('user'));
   const themes = useSelector(selectFuseThemesSettings);
   const settings = useSelector(selectFuseCurrentSettings);
   const { reset, watch, control } = useForm({
@@ -145,20 +145,18 @@ function FuseSettings(props) {
               style={{
                 backgroundColor: val.palette.background.default,
                 color: val.palette.mode === 'light' ? '#000000' : '#FFFFFF',
-                border: `1px solid ${
-                  val.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.12)'
-                }`,
+                border: `1px solid ${val.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.12)'
+                  }`,
               }}
             >
               {_.startCase(key)}
               <div
                 className="flex w-full h-8 block absolute bottom-0 left-0 right-0"
                 style={{
-                  borderTop: `1px solid ${
-                    val.palette.mode === 'light'
-                      ? 'rgba(0, 0, 0, 0.12)'
-                      : 'rgba(255, 255, 255, 0.12)'
-                  }`,
+                  borderTop: `1px solid ${val.palette.mode === 'light'
+                    ? 'rgba(0, 0, 0, 0.12)'
+                    : 'rgba(255, 255, 255, 0.12)'
+                    }`,
                 }}
               >
                 <div

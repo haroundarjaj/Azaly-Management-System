@@ -12,7 +12,7 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectUser } from 'app/store/userSlice';
 
 function UserMenu(props) {
-  const user = useSelector(selectUser);
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const [userMenu, setUserMenu] = useState(null);
 
@@ -33,19 +33,14 @@ function UserMenu(props) {
       >
         <div className="hidden md:flex flex-col mx-4 items-end">
           <Typography component="span" className="font-semibold flex">
-            {user.data.displayName}
+            {`${user?.firstName} ${user?.lastName}`}
           </Typography>
           <Typography className="text-11 font-medium capitalize" color="text.secondary">
-            {user.role.toString()}
-            {(!user.role || (Array.isArray(user.role) && user.role.length === 0)) && 'Guest'}
+            {user?.roles[0]}
+            {(!user?.roles[0] || (Array.isArray(user?.roles) && user?.roles.length === 0)) && 'Guest'}
           </Typography>
         </div>
-
-        {user.data.photoURL ? (
-          <Avatar className="md:mx-4" alt="user photo" src={user.data.photoURL} />
-        ) : (
-          <Avatar className="md:mx-4">{user.data.displayName[0]}</Avatar>
-        )}
+        <Avatar className="md:mx-4" alt="user photo" src={user?.image || `${process.env.PUBLIC_URL}/assets/images/avatars/general-avatar.svg`} />
       </Button>
 
       <Popover
@@ -64,7 +59,7 @@ function UserMenu(props) {
           paper: 'py-8',
         }}
       >
-        {!user.role || user.role.length === 0 ? (
+        {!user?.roles || user?.roles.length === 0 ? (
           <>
             <MenuItem component={Link} to="/sign-in" role="button">
               <ListItemIcon className="min-w-40">

@@ -11,7 +11,6 @@ import FuseSvgIcon from '../../../FuseSvgIcon';
 const Root = styled(ListItem)(({ theme, ...props }) => ({
   minHeight: 44,
   width: '100%',
-  borderRadius: '6px',
   margin: '0 0 4px 0',
   paddingRight: 16,
   paddingLeft: props.itempadding > 80 ? 80 : props.itempadding,
@@ -48,7 +47,7 @@ const Root = styled(ListItem)(({ theme, ...props }) => ({
 function FuseNavVerticalItem(props) {
   const { item, nestedLevel, onItemClick } = props;
 
-  const itempadding = nestedLevel > 0 ? 38 + nestedLevel * 16 : 16;
+  const itempadding = nestedLevel > 0 ? 38 + nestedLevel * 15 : 15;
 
   return useMemo(
     () => (
@@ -69,6 +68,7 @@ function FuseNavVerticalItem(props) {
           <FuseSvgIcon
             className={clsx('fuse-list-item-icon shrink-0', item.iconClass)}
             color="action"
+            size={18}
           >
             {item.icon}
           </FuseSvgIcon>
@@ -79,8 +79,8 @@ function FuseNavVerticalItem(props) {
           primary={item.title}
           secondary={item.subtitle}
           classes={{
-            primary: 'text-13 font-medium fuse-list-item-text-primary truncate',
-            secondary: 'text-11 font-medium fuse-list-item-text-secondary leading-normal truncate',
+            primary: 'text-12 font-medium fuse-list-item-text-primary truncate',
+            secondary: 'text-9 font-medium fuse-list-item-text-secondary leading-normal truncate',
           }}
         />
         {item.badge && <FuseNavBadge badge={item.badge} />}

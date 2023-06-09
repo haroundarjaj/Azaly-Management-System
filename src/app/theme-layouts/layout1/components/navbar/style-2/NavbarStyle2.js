@@ -11,7 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectFuseCurrentLayoutConfig } from 'app/store/fuse/settingsSlice';
 import NavbarStyle2Content from './NavbarStyle2Content';
 
-const navbarWidth = 280;
+const navbarWidth = 180;
+const navbarFoldedWidth = 50;
 
 const Root = styled('div')(({ theme, folded }) => ({
   display: 'flex',
@@ -24,8 +25,8 @@ const Root = styled('div')(({ theme, folded }) => ({
 
   ...(folded && {
     [theme.breakpoints.up('lg')]: {
-      width: 76,
-      minWidth: 76,
+      width: navbarFoldedWidth,
+      minWidth: navbarFoldedWidth,
     },
   }),
 }));
@@ -51,8 +52,8 @@ const StyledNavbar = styled('div')(
 
     ...(folded && {
       position: 'absolute',
-      width: 76,
-      minWidth: 76,
+      width: navbarFoldedWidth,
+      minWidth: navbarFoldedWidth,
       top: 0,
       bottom: 0,
     }),
@@ -155,7 +156,7 @@ function NavbarStyle2(props) {
           variant="temporary"
           open={navbar.mobileOpen}
           onClose={() => dispatch(navbarCloseMobile())}
-          onOpen={() => {}}
+          onOpen={() => { }}
           disableSwipeToOpen
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.

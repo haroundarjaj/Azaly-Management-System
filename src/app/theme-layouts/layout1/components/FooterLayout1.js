@@ -5,6 +5,7 @@ import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { selectFooterTheme } from 'app/store/fuse/settingsSlice';
 import clsx from 'clsx';
+import { Typography } from '@mui/material';
 
 function FooterLayout1(props) {
   const footerTheme = useSelector(selectFooterTheme);
@@ -22,8 +23,10 @@ function FooterLayout1(props) {
               : footerTheme.palette.background.default,
         }}
       >
-        <Toolbar className="min-h-48 md:min-h-64 px-8 sm:px-12 py-0 flex items-center overflow-x-auto">
-          Footer
+        <Toolbar className="min-h-15 md:min-h-20 px-8 sm:min-h-20 py-0 flex items-center justify-center opacity-50 overflow-x-auto">
+          <Typography variant='caption' className='text-xs'>
+            {`Developed By: Haroun Darjaj (DarTech)`}
+          </Typography>
         </Toolbar>
       </AppBar>
     </ThemeProvider>

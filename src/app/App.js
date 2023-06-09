@@ -1,4 +1,3 @@
-import '@mock-api';
 import BrowserRouter from '@fuse/core/BrowserRouter';
 import FuseLayout from '@fuse/core/FuseLayout';
 import FuseTheme from '@fuse/core/FuseTheme';
@@ -15,14 +14,13 @@ import FuseAuthorization from '@fuse/core/FuseAuthorization';
 import settingsConfig from 'app/configs/settingsConfig';
 import withAppProviders from './withAppProviders';
 import { AuthProvider } from './auth/AuthContext';
+import { HashRouter, useLocation } from 'react-router-dom';
 
-// import axios from 'axios';
+import axios from 'axios';
 /**
  * Axios HTTP Request defaults
  */
-// axios.defaults.baseURL = "";
-// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-// axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 const emotionCacheOptions = {
   rtl: {
@@ -38,17 +36,15 @@ const emotionCacheOptions = {
 };
 
 const App = () => {
-  const user = useSelector(selectUser);
+  const user = JSON.parse(localStorage.getItem('user'));
   const langDirection = useSelector(selectCurrentLanguageDirection);
   const mainTheme = useSelector(selectMainTheme);
-
   return (
     <CacheProvider value={createCache(emotionCacheOptions[langDirection])}>
       <FuseTheme theme={mainTheme} direction={langDirection}>
         <AuthProvider>
           <BrowserRouter>
             <FuseAuthorization
-              userRole={user.role}
               loginRedirectUrl={settingsConfig.loginRedirectUrl}
             >
               <SnackbarProvider

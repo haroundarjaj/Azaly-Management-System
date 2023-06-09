@@ -1,4 +1,5 @@
 import * as React from 'react';
+import history from '@history';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
@@ -16,28 +17,22 @@ function AuthProvider({ children }) {
   useEffect(() => {
     jwtService.on('onAutoLogin', () => {
       dispatch(showMessage({ message: 'Signing in with JWT' }));
-
-      /**
-       * Sign in and retrieve user data with stored token
-       */
-      jwtService
-        .signInWithToken()
-        .then((user) => {
-          success(user, 'Signed in with JWT');
-        })
-        .catch((error) => {
-          pass(error.message);
-        });
+      const user = JSON.parse(localStorage.getItem('user'));
+      success(user, 'Signed in with JWT');
     });
 
     jwtService.on('onLogin', (user) => {
       success(user, 'Signed in');
+      history.push({
+        pathname: '/dashboard',
+      });
     });
 
     jwtService.on('onLogout', () => {
       pass('Signed out');
-
-      dispatch(logoutUser());
+      history.push({
+        pathname: '/sign-in',
+      });
     });
 
     jwtService.on('onAutoLogout', (message) => {
@@ -56,14 +51,12 @@ function AuthProvider({ children }) {
       if (message) {
         dispatch(showMessage({ message }));
       }
-
-      Promise.all([
-        dispatch(setUser(user)),
-        // You can receive data in here before app initialization
-      ]).then((values) => {
+      console.log(user)
+      localStorage.setItem('user', JSON.stringify(user));
+      setTimeout(() => {
         setWaitAuthCheck(false);
         setIsAuthenticated(true);
-      });
+      }, 100)
     }
 
     function pass(message) {
@@ -71,8 +64,10 @@ function AuthProvider({ children }) {
         dispatch(showMessage({ message }));
       }
 
-      setWaitAuthCheck(false);
-      setIsAuthenticated(false);
+      setTimeout(() => {
+        setWaitAuthCheck(false);
+        setIsAuthenticated(false);
+      }, 100)
     }
   }, [dispatch]);
 

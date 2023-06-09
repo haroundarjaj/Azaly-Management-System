@@ -13,7 +13,6 @@ import LeftSideLayout3 from './components/LeftSideLayout3';
 import NavbarWrapperLayout3 from './components/NavbarWrapperLayout3';
 import RightSideLayout3 from './components/RightSideLayout3';
 import ToolbarLayout3 from './components/ToolbarLayout3';
-import SettingsPanel from '../shared-components/SettingsPanel';
 
 const Root = styled('div')(({ theme, config }) => ({
   ...(config.mode === 'boxed' && {
@@ -35,6 +34,7 @@ function Layout3(props) {
   const config = useSelector(selectFuseCurrentLayoutConfig);
   const appContext = useContext(AppContext);
   const { routes } = appContext;
+
   return (
     <Root id="fuse-layout" className="w-full flex" config={config}>
       {config.leftSidePanel.display && <LeftSideLayout3 />}
@@ -55,10 +55,6 @@ function Layout3(props) {
               )}
             />
           )}
-
-          <div className="sticky top-0 z-99">
-            <SettingsPanel />
-          </div>
 
           <div className="flex flex-col flex-auto min-h-0 relative z-10">
             <FuseDialog />

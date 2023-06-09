@@ -91,7 +91,7 @@ function Chat(props) {
   const dispatch = useDispatch();
   const selectedContactId = useSelector(selectSelectedContactId);
   const chat = useSelector(selectChat);
-  const user = useSelector(selectUser);
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const chatScroll = useRef(null);
   const [messageText, setMessageText] = useState('');
@@ -138,29 +138,29 @@ function Chat(props) {
 
             return chat?.length > 0
               ? chat.map((item, i) => {
-                  return (
-                    <StyledMessageRow
-                      key={i}
-                      className={clsx(
-                        'flex flex-col grow-0 shrink-0 items-start justify-end relative px-16 pb-4',
-                        item.contactId === user.id ? 'me' : 'contact',
-                        { 'first-of-group': isFirstMessageOfGroup(item, i) },
-                        { 'last-of-group': isLastMessageOfGroup(item, i) },
-                        i + 1 === chat.length && 'pb-72'
-                      )}
-                    >
-                      <div className="bubble flex relative items-center justify-center p-12 max-w-full">
-                        <div className="leading-tight whitespace-pre-wrap">{item.value}</div>
-                        <Typography
-                          className="time absolute hidden w-full text-11 mt-8 -mb-24 ltr:left-0 rtl:right-0 bottom-0 whitespace-nowrap"
-                          color="text.secondary"
-                        >
-                          {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}
-                        </Typography>
-                      </div>
-                    </StyledMessageRow>
-                  );
-                })
+                return (
+                  <StyledMessageRow
+                    key={i}
+                    className={clsx(
+                      'flex flex-col grow-0 shrink-0 items-start justify-end relative px-16 pb-4',
+                      item.contactId === user.id ? 'me' : 'contact',
+                      { 'first-of-group': isFirstMessageOfGroup(item, i) },
+                      { 'last-of-group': isLastMessageOfGroup(item, i) },
+                      i + 1 === chat.length && 'pb-72'
+                    )}
+                  >
+                    <div className="bubble flex relative items-center justify-center p-12 max-w-full">
+                      <div className="leading-tight whitespace-pre-wrap">{item.value}</div>
+                      <Typography
+                        className="time absolute hidden w-full text-11 mt-8 -mb-24 ltr:left-0 rtl:right-0 bottom-0 whitespace-nowrap"
+                        color="text.secondary"
+                      >
+                        {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}
+                      </Typography>
+                    </div>
+                  </StyledMessageRow>
+                );
+              })
               : null;
           }, [chat, user?.id])}
         </div>

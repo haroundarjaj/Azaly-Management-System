@@ -49,7 +49,7 @@ const navigationSlice = createSlice({
 
 export const { setNavigation, resetNavigation } = navigationSlice.actions;
 
-const getUserRole = (state) => state.user.role;
+const getUserRole = () => JSON.parse(localStorage.getItem('user'))?.role;
 
 export const selectNavigation = createSelector(
   [selectNavigationAll, ({ i18n }) => i18n.language, getUserRole],
@@ -57,8 +57,12 @@ export const selectNavigation = createSelector(
     function setTranslationValues(data) {
       // loop through every object in the array
       return data.map((item) => {
-        if (item.translate && item.title) {
-          item.title = i18next.t(`navigation:${item.translate}`);
+        if (item.titleTranslate && item.title) {
+          item.title = i18next.t(`navigation:${item.titleTranslate}`);
+        }
+
+        if (item.subtitleTranslate && item.subtitle) {
+          item.subtitle = i18next.t(`navigation:${item.subtitleTranslate}`);
         }
 
         // see if there is a children node
