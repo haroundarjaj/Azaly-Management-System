@@ -40,6 +40,41 @@ const navigationConfig = [
         icon: 'heroicons-outline:user-group',
         url: 'clients',
       },
+      {
+        id: 'orders-component',
+        title: 'Orders',
+        titleTranslate: 'ORDERS',
+        type: 'item',
+        icon: 'heroicons-outline:clipboard-list',
+        url: 'orders',
+      },
+    ]
+  },
+  {
+    id: 'products-manager',
+    title: 'Products Manager',
+    titleTranslate: 'PRODUCTS_MANAGER',
+    subtitle: 'Products Management Section',
+    subtitleTranslate: 'PRODUCTS_SUB',
+    type: 'group',
+    icon: 'heroicons-outline:user-group',
+    children: [
+      {
+        id: 'products-component',
+        title: 'Products',
+        titleTranslate: 'PRODUCTS',
+        type: 'item',
+        icon: 'heroicons-outline:color-swatch',
+        url: 'products',
+      },
+      {
+        id: 'categories-component',
+        title: 'Categories',
+        titleTranslate: 'CATEGORIES',
+        type: 'item',
+        icon: 'heroicons-outline:view-boards',
+        url: 'categories',
+      },
     ]
   },
   {

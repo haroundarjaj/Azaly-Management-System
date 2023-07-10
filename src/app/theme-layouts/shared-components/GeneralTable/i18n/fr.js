@@ -1,0 +1,28 @@
+const locale = {
+    no_records: "Désolé, aucun enregistrement correspondant n'a été trouvé",
+    sort: "Trier",
+    sort_for: "Trier pour",
+    next_page: "Trier pour",
+    prev_page: "Page précédente",
+    rows: "Lignes",
+    of: "de",
+    search: "Chercher",
+    downloadCSV: "ChercherChercher",
+    print: "Imprimer",
+    columns: "Colonnes",
+    filter: "Filtre",
+    all: "Tous",
+    title: "Titre",
+    reset: "Réinitialiser",
+    view_cols: "Afficher les colonnes",
+    title_aria: "Titre aria",
+    selected_rows: "Lignes sélectionnées",
+    delete_selected_rows: "Supprimer les lignes sélectionnées",
+    download_excel: "Télécharger Excel",
+    add: "Ajouter",
+    edit: "Modifier",
+    delete: "Supprimer",
+    preview: "Aperçu",
+};
+
+export default locale;

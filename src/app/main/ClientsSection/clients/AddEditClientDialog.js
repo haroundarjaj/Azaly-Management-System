@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Grid, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
+import { Button, Grid, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ProfilePicture from "profile-picture";
@@ -10,7 +10,8 @@ import { useForm } from "react-hook-form";
 const profilePictureRef = React.createRef();
 
 function AddEditClientDialog(props) {
-    const { t } = useTranslation('clientsPage');
+    const tClient = useTranslation('clientsPage').t;
+    const tGeneral = useTranslation('generalTranslations').t;
 
     const {
         handleClose,
@@ -39,12 +40,10 @@ function AddEditClientDialog(props) {
     const handleSave = (data) => {
         const PP = profilePictureRef.current;
         const imageAsDataURL = PP.getImageAsDataUrl(1);
-        console.log(imageAsDataURL);
-        console.log(PP.getData());
-        console.log(data);
         const client = {
             ...data,
-            image: null
+            image: null,
+            isIndividual: data.isIndividual ? "yes" : "no"
         }
         if (PP.getData().imageSrc) {
             client.image = imageAsDataURL;
@@ -52,16 +51,13 @@ function AddEditClientDialog(props) {
         if (selectedClient) {
             client.id = selectedClient.id;
             ClientService.update(client).then(({ data }) => {
-                console.log(data);
                 handleUpdateDone(data);
             })
         } else {
             ClientService.add(client).then(({ data }) => {
-                console.log(data);
                 handleAddDone(data);
             })
         }
-
     }
 
     const handleError = (status) => {
@@ -79,7 +75,8 @@ function AddEditClientDialog(props) {
                 lastName: '',
                 phoneNumber: '',
                 email: '',
-                address: ''
+                address: '',
+                isIndividual: false
             });
         } else reset(selectedClient);
     }, [open])
@@ -92,14 +89,14 @@ function AddEditClientDialog(props) {
             maxWidth="md"
         >
             <DialogTitle>
-                <Typography variant="h5" color="secondary">
-                    {t('add_title')}
+                <Typography variant="subtitle1" color="secondary">
+                    {selectedClient ? tClient('edit_title') : tClient('add_title')}
+                </Typography>
+                <Typography variant="subtitle2" style={{ marginBottom: 20 }}>
+                    {selectedClient ? tClient('edit_desc') : tClient('add_desc')}
                 </Typography>
             </DialogTitle>
             <DialogContent>
-                <Typography variant="h6" style={{ marginBottom: 20 }}>
-                    {t('add_desc')}
-                </Typography>
                 <Grid
                     container
                     spacing={1}
@@ -126,8 +123,8 @@ function AddEditClientDialog(props) {
                             minImageSize={200}
                             messages={
                                 {
-                                    DEFAULT: t('user.image.tap'),
-                                    DRAGOVER: t('user.image.drop'),
+                                    DEFAULT: tGeneral('image_tap'),
+                                    DRAGOVER: tGeneral('image_drop'),
                                     INVALID_FILE_TYPE: "",
                                     INVALID_IMAGE_SIZE: ""
                                 }
@@ -145,45 +142,68 @@ function AddEditClientDialog(props) {
                         >
                             <Grid
                                 container
-                                spacing={1}
+                                spacing={2}
                             >
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        id="firstName"
-                                        label="firstName"
-                                        variant="outlined"
-                                        name="firstName"
-                                        required
-                                        fullWidth
-                                        defaultValue={selectedClient?.firstName}
-                                        {...register('firstName')}
-                                        style={{
-                                            marginBottom: 10
-                                        }}
-                                    />
+                                <Grid container item xs={12} md={6}>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            id="firstName"
+                                            label={tGeneral("first_name")}
+                                            variant="outlined"
+                                            name="firstName"
+                                            required
+                                            fullWidth
+                                            defaultValue={selectedClient?.firstName}
+                                            {...register('firstName')}
+                                            style={{
+                                                marginBottom: 20
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            id="lastName"
+                                            label={tGeneral("last_name")}
+                                            variant="outlined"
+                                            name="lastName"
+                                            required
+                                            fullWidth
+                                            defaultValue={selectedClient?.lastName}
+                                            {...register('lastName')}
+                                            style={{
+                                                marginBottom: 5
+                                            }}
+                                        />
+                                    </Grid>
+
                                 </Grid>
                                 <Grid item xs={12} md={6}>
                                     <TextField
-                                        id="lastName"
-                                        label="lastName"
+                                        id="address"
+                                        label={tGeneral("address")}
                                         variant="outlined"
-                                        name="lastName"
-                                        required
+                                        name="address"
+                                        multiline
                                         fullWidth
-                                        defaultValue={selectedClient?.lastName}
-                                        {...register('lastName')}
+                                        inputProps={{
+                                            style: {
+                                                height: 92,
+                                                overflow: "auto"
+                                            },
+                                        }}
+                                        defaultValue={selectedClient?.address}
+                                        {...register('address')}
                                         style={{
-                                            marginBottom: 10
+                                            marginBottom: 5
                                         }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} md={6}>
                                     <TextField
                                         id="email"
-                                        label="email"
+                                        label={tGeneral("email")}
                                         variant="outlined"
                                         name="email"
-                                        required
                                         fullWidth
                                         defaultValue={selectedClient?.email}
                                         {...register('email')}
@@ -195,7 +215,7 @@ function AddEditClientDialog(props) {
                                 <Grid item xs={12} md={6}>
                                     <TextField
                                         id="phoneNumber"
-                                        label="phoneNumber"
+                                        label={tGeneral("phone_number")}
                                         variant="outlined"
                                         name="phoneNumber"
                                         type="number"
@@ -208,27 +228,13 @@ function AddEditClientDialog(props) {
                                         }}
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        id="address"
-                                        label="address"
-                                        variant="outlined"
-                                        name="address"
-                                        multiline
-                                        required
-                                        fullWidth
-                                        inputProps={{
-                                            style: {
-                                                height: 81,
-                                                overflow: "auto"
-                                            },
-                                        }}
-                                        defaultValue={selectedClient?.address}
-                                        {...register('address')}
-                                        style={{
-                                            marginBottom: 10
-                                        }}
-                                    />
+                                <Grid item xs={12} md={6}>
+                                    <FormGroup >
+                                        <FormControlLabel
+                                            control={<Checkbox name="isIndividual" color="secondary" defaultChecked={selectedClient?.isIndividual === "yes"} {...register('isIndividual')} />}
+                                            label={<Typography variant='p'>{tClient('individual_client')}</Typography>}
+                                        />
+                                    </FormGroup>
                                 </Grid>
                             </Grid>
                         </form>
@@ -237,10 +243,10 @@ function AddEditClientDialog(props) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>
-                    Close
+                    {tGeneral('close')}
                 </Button>
                 <Button onClick={handleSave} color="secondary" type="submit" form="add-client-form">
-                    Save
+                    {tGeneral('save')}
                 </Button>
             </DialogActions>
         </Dialog>

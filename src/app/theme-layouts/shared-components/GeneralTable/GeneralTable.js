@@ -10,6 +10,17 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { Visibility } from '@material-ui/icons';
 import { withStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
+
+import en from './i18n/en';
+import ar from './i18n/ar';
+import fr from './i18n/fr';
+import getTableLabels from './TableLabels';
+
+i18next.addResourceBundle('en', 'generalTable', en);
+i18next.addResourceBundle('ar', 'generalTable', ar);
+i18next.addResourceBundle('fr', 'generalTable', fr);
 
 const styles = theme => ({
     table: {
@@ -58,6 +69,8 @@ function GeneralTable(props) {
         showToolBar
     } = props;
 
+    const { t } = useTranslation('generalTable');
+
     const options = {
         filter: true,
         fixedHeader: true,
@@ -65,9 +78,13 @@ function GeneralTable(props) {
         filterType: 'dropdown',
         responsive: 'simple',
         print: true,
-        rowsPerPage: 25,
+        rowsPerPage: 5,
+        elevation: 0,
         rowsPerPageOptions: [5, 10, 25, 100],
         page: 0,
+        downloadOptions: {
+            filename: title + '.csv'
+        },
         onDownload: (buildHead, buildBody, columns, data) => '\uFEFF' + buildHead(columns).replaceAll('"', '') + buildBody(data).replaceAll('"', ''),
         draggableColumns: {
             enabled: true,
@@ -78,15 +95,16 @@ function GeneralTable(props) {
         downloadOptions: {
             filename: title + '.csv'
         },
+        textLabels: getTableLabels(t),
         customToolbar: () => (
             <>
-                <Tooltip title={'downloadExcel'} className={classes.toolbarBtn}>
+                <Tooltip title={t("download_excel")} className={classes.toolbarBtn}>
                     <IconButton onClick={() => exportAsExcel(data, title, columns)}>
                         <GetAppIcon />
                     </IconButton>
                 </Tooltip>
                 {addButtonVisibility && (
-                    <Tooltip title={"add"} className={classes.toolbarBtn}>
+                    <Tooltip title={t("add")} className={classes.toolbarBtn}>
                         <IconButton onClick={handleAddClick}>
                             <AddIcon />
                         </IconButton>
@@ -108,9 +126,9 @@ function GeneralTable(props) {
                         ? (
                             <>
                                 {previewButtonVisibility && (
-                                    <Tooltip title={'preview'} className={classes.toolbarBtn}>
+                                    <Tooltip title={t("preview")} className={classes.toolbarBtn}>
                                         <IconButton onClick={() => {
-                                            handlePreviewClick(elements);
+                                            handlePreviewClick(elements[0]);
                                         }}
                                         >
                                             <Visibility />
@@ -118,7 +136,7 @@ function GeneralTable(props) {
                                     </Tooltip>
                                 )}
                                 {editButtonVisibility && (
-                                    <Tooltip title={'edit'} className={classes.toolbarBtn}>
+                                    <Tooltip title={t("edit")} className={classes.toolbarBtn}>
                                         <IconButton onClick={() => {
                                             handleEditClick(elements[0]);
                                         }}
@@ -132,7 +150,7 @@ function GeneralTable(props) {
                         ) : null
                     }
                     {deleteButtonVisibility && (
-                        <Tooltip title={'delete'} className={classes.toolbarBtn}>
+                        <Tooltip title={t("delete")} className={classes.toolbarBtn}>
                             <IconButton onClick={() => {
                                 handleDeleteClick(elements[0], setSelectedRows);
                             }}
@@ -153,7 +171,7 @@ function GeneralTable(props) {
             className={showToolBar ? classNames(classes.table) : classNames(classes.table, classes.hideToolBar)}
         >
             <MUIDataTable
-                title={title}
+                // title={title}
                 data={data}
                 columns={columns}
                 options={options}

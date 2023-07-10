@@ -4,14 +4,15 @@ import * as XLSX from 'xlsx';
 var pixelWidth = require('string-pixel-width');
 
 export const exportAsExcel = (csvData, fileName, columns) => {
-  const columns1 = columns.filter(column => column.options?.download === true || column.options?.download === undefined);
+  const columns1 = columns.filter(column => (column.options?.download === true || column.options?.download === undefined));
   const columns2 = columns.filter(column => column.options?.download === false);
   const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
   const fileExtension = '.xlsx';
   csvData.forEach(el => {
     Object.keys(el).forEach(key => {
-      if (key.includes("id") || key.includes("Id")) delete el[key];
+      if (key === "id" || key === "Id" || key === "ID") delete el[key];
       if (columns2.some(column => column.name === key)) delete el[key];
+      if (columns.every(column => column.name !== key)) delete el[key];
     })
   });
   const ws = XLSX.utils.json_to_sheet(csvData);

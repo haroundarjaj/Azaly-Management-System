@@ -8,9 +8,11 @@ import SignOutConfig from '../main/sign-out/SignOutConfig';
 import Error404Page from '../main/404/Error404Page';
 import ExampleConfig from '../main/example/ExampleConfig';
 import DashboardConfig from '../main/dashboard/DashboardConfig';
-import ClientsConfig from '../main/clients/ClientsConfig';
+import ClientsConfig from '../main/ClientsSection/clients/ClientsConfig';
+import ProductsConfig from '../main/ProductsSection/products/ProductsConfig';
+import CategoriesConfig from '../main/ProductsSection/categories/CategoriesConfig';
 
-const routeConfigs = [ExampleConfig, DashboardConfig, ClientsConfig, SignOutConfig, SignInConfig, SignUpConfig];
+const routeConfigs = [ExampleConfig, DashboardConfig, ClientsConfig, ProductsConfig, CategoriesConfig, SignOutConfig, SignInConfig, SignUpConfig];
 
 const routes = [
   ...FuseUtils.generateRoutesFromConfigs(routeConfigs, settingsConfig.defaultAuth),

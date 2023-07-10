@@ -52,8 +52,6 @@ function SignInPage() {
   }, [setValue]);
 
   function onSubmit({ email, password }) {
-    console.log(process.env.REACT_APP_PASSWORD_SECRET_KEY)
-    console.log(process.env)
     const key = CryptoJS.enc.Latin1.parse(process.env.REACT_APP_PASSWORD_SECRET_KEY);
     var iv = CryptoJS.enc.Latin1.parse('0000000000000000');
     var aesOptions = { mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7, iv: iv };

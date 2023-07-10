@@ -15,12 +15,21 @@ import settingsConfig from 'app/configs/settingsConfig';
 import withAppProviders from './withAppProviders';
 import { AuthProvider } from './auth/AuthContext';
 import { HashRouter, useLocation } from 'react-router-dom';
-
+import i18next from 'i18next';
 import axios from 'axios';
 /**
  * Axios HTTP Request defaults
  */
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
+
+import en from './utils/GeneralTranslations/en';
+import ar from './utils/GeneralTranslations/ar';
+import fr from './utils/GeneralTranslations/fr';
+
+i18next.addResourceBundle('en', 'generalTranslations', en);
+i18next.addResourceBundle('ar', 'generalTranslations', ar);
+i18next.addResourceBundle('fr', 'generalTranslations', fr);
 
 const emotionCacheOptions = {
   rtl: {
