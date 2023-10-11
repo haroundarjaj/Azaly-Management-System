@@ -13,6 +13,8 @@ class OrderService {
 
     update = (order) => axios.put(`${orderAPI}/update`, order, { headers });
 
+    updateState = (state, orderId) => axios.put(`${orderAPI}/update-state/${state}/${orderId}`, { headers });
+
     getAll = () => axios.get(`${orderAPI}/all`, { headers });
 
     delete = (id) => axios.delete(`${orderAPI}/delete/${id}`, { headers });

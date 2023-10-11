@@ -81,15 +81,15 @@ function AddEditCategoryDialog(props) {
     };
 
     useEffect(() => {
-        if (open && !selectedCategory) {
+        if (open && selectedCategory) {
+            setUploadedImage(selectedCategory.image)
+            reset(selectedCategory)
+        } else {
             setUploadedImage(null)
             reset({
                 name: '',
                 description: ''
             });
-        } else {
-            setUploadedImage(selectedCategory?.image)
-            reset(selectedCategory)
         };
     }, [open])
 

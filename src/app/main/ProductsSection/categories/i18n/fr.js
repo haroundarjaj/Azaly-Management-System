@@ -7,6 +7,8 @@ const locale = {
     edit_title: 'Modifier la catégorie',
     edit_desc: 'Remplissez le formulaire puis cliquez sur enregistrer pour mettre à jour la catégorie.',
     name_already_exist: 'Le nom de la catégorie existe déjà',
+    category: 'Catégorie',
+    filter_by_category: 'Filtrer par catégorie'
 };
 
 export default locale;

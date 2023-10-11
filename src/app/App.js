@@ -17,6 +17,8 @@ import { AuthProvider } from './auth/AuthContext';
 import { HashRouter, useLocation } from 'react-router-dom';
 import i18next from 'i18next';
 import axios from 'axios';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { LocalizationProvider } from '@mui/x-date-pickers'
 /**
  * Axios HTTP Request defaults
  */
@@ -50,28 +52,30 @@ const App = () => {
   const mainTheme = useSelector(selectMainTheme);
   return (
     <CacheProvider value={createCache(emotionCacheOptions[langDirection])}>
-      <FuseTheme theme={mainTheme} direction={langDirection}>
-        <AuthProvider>
-          <BrowserRouter>
-            <FuseAuthorization
-              loginRedirectUrl={settingsConfig.loginRedirectUrl}
-            >
-              <SnackbarProvider
-                maxSnack={5}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                classes={{
-                  containerRoot: 'bottom-0 right-0 mb-52 md:mb-68 mr-8 lg:mr-80 z-99',
-                }}
+      <LocalizationProvider dateAdapter={AdapterMoment}>
+        <FuseTheme theme={mainTheme} direction={langDirection}>
+          <AuthProvider>
+            <BrowserRouter>
+              <FuseAuthorization
+                loginRedirectUrl={settingsConfig.loginRedirectUrl}
               >
-                <FuseLayout layouts={themeLayouts} />
-              </SnackbarProvider>
-            </FuseAuthorization>
-          </BrowserRouter>
-        </AuthProvider>
-      </FuseTheme>
+                <SnackbarProvider
+                  maxSnack={5}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  classes={{
+                    containerRoot: 'bottom-0 right-0 mb-52 md:mb-68 mr-8 lg:mr-80 z-99',
+                  }}
+                >
+                  <FuseLayout layouts={themeLayouts} />
+                </SnackbarProvider>
+              </FuseAuthorization>
+            </BrowserRouter>
+          </AuthProvider>
+        </FuseTheme>
+      </LocalizationProvider>
     </CacheProvider>
   );
 };

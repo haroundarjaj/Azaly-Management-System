@@ -7,5 +7,7 @@ const locale = {
   edit_title: "تحرير الفئة",
   edit_desc: "املأ النموذج ثم انقر فوق حفظ لتحديث الفئة.",
   name_already_exist: "اسم الفئة موجود بالفعل",
+  category: 'الفئة',
+  filter_by_category: 'تصفية حسب الفئة'
 }
 export default locale;

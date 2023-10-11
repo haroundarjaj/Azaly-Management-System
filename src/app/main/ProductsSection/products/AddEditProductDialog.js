@@ -7,6 +7,7 @@ import ProductService from "src/app/services/ProductService";
 import { useForm } from "react-hook-form";
 import ImageUploader from "app/theme-layouts/shared-components/ImageViewer/ImageUploader";
 import CategoryService from "src/app/services/ProductCategoryService";
+import AutoComplete from "app/theme-layouts/shared-components/AutoComplete";
 
 const productImageRef = React.createRef();
 
@@ -71,7 +72,10 @@ function AddEditProductDialog(props) {
     }, []);
 
     useEffect(() => {
-        if (open && !selectedProduct) {
+        if (open && selectedProduct) {
+            setUploadedImage(selectedProduct?.image)
+            reset(selectedProduct)
+        } else {
             setUploadedImage(null)
             reset({
                 ref: '',
@@ -81,9 +85,6 @@ function AddEditProductDialog(props) {
                 unitPrice: '',
                 wholesalePrice: ''
             });
-        } else {
-            setUploadedImage(selectedProduct?.image)
-            reset(selectedProduct)
         };
     }, [open])
 
@@ -176,8 +177,7 @@ function AddEditProductDialog(props) {
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <Autocomplete
-                                            disablePortal
+                                        <AutoComplete
                                             defaultValue={{ name: selectedProduct?.categoryName }}
                                             options={categoriesData}
                                             getOptionLabel={(option) => option.name || ''}

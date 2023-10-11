@@ -7,6 +7,8 @@ const locale = {
   edit_title: 'Edit category',
   edit_desc: 'Fill the form then click save to update the category.',
   name_already_exist: 'The name of the category is already exists',
+  category: 'Category',
+  filter_by_category: 'Filter by category'
 };
 
 export default locale;

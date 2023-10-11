@@ -11,8 +11,9 @@ import DashboardConfig from '../main/dashboard/DashboardConfig';
 import ClientsConfig from '../main/ClientsSection/clients/ClientsConfig';
 import ProductsConfig from '../main/ProductsSection/products/ProductsConfig';
 import CategoriesConfig from '../main/ProductsSection/categories/CategoriesConfig';
+import OrdersConfig from '../main/ClientsSection/orders/OrdersConfig';
 
-const routeConfigs = [ExampleConfig, DashboardConfig, ClientsConfig, ProductsConfig, CategoriesConfig, SignOutConfig, SignInConfig, SignUpConfig];
+const routeConfigs = [ExampleConfig, DashboardConfig, ClientsConfig, OrdersConfig, ProductsConfig, CategoriesConfig, SignOutConfig, SignInConfig, SignUpConfig];
 
 const routes = [
   ...FuseUtils.generateRoutesFromConfigs(routeConfigs, settingsConfig.defaultAuth),
