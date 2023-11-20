@@ -10,6 +10,8 @@ const locale = {
     wholesale_price: "Prix de gros",
     product_type: "Type du produit",
     category: "Categorie",
+    products_gallery: "Galerie de produits",
+    select_products: "Sélectionner des produits"
 };
 
 export default locale;

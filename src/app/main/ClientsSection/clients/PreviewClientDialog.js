@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Button, Grid, Dialog, DialogActions, DialogContent, DialogTitle, Typography, FormGroup, FormControlLabel, Checkbox, Avatar } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import ReactToPrint from "react-to-print";
 import '../../../utils/print/PrintStylesheet.css';
 
 function PreviewClientDialog(props) {
@@ -112,9 +113,15 @@ function PreviewClientDialog(props) {
                 <Button onClick={onClose}>
                     {tGeneral('close')}
                 </Button>
-                <Button onClick={() => { window.print() }} color="secondary" >
-                    {tGeneral('print')}
-                </Button>
+                <ReactToPrint
+                    bodyClass="print-agreement"
+                    content={() => componentRef.current}
+                    trigger={() => (
+                        <Button color="secondary" >
+                            {tGeneral('print')}
+                        </Button>
+                    )}
+                />
             </DialogActions>
         </Dialog>
     )

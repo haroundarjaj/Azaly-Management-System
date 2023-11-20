@@ -6,6 +6,27 @@ const locale = {
   add_desc: 'Fill the form then click save to create a new order.',
   edit_title: 'Edit order',
   edit_desc: 'Fill the form then click save to update the order.',
+  registered_date: 'Registration date',
+  confirmed_date: 'Confirmation date',
+  shipped_date: 'Shipping date',
+  delivered_date: 'Delivery date',
+  canceled_date: 'Cancellation date',
+  total_amount: 'Total amount',
+  reduction: 'Reduction (%)',
+  products: 'Products',
+  ref_already_exist: 'Order reference number already exist',
+  update_state: 'Update state',
+  registered_description: 'The order is registred in the system',
+  confirmed_description: 'The order have been confirmed and ready to be delivered',
+  shipped_description: 'The order has been shipped and is being processed by the delivery service',
+  delivered_description: 'The order has been delivered and received by the customer',
+  canceled_description: 'The order have been canceled or failed',
+  log: 'Order log',
+  registered: 'Registered',
+  confirmed: 'Confirmed',
+  shipped: 'Shipped',
+  delivered: 'Delivered',
+  canceled: 'Canceled'
 };
 
 export default locale;

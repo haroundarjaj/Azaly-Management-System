@@ -43,16 +43,24 @@ function OrderMainPage(props) {
                 }
             },
             {
-                label: tOrder('order_date'),
-                name: 'orderDate',
+                label: tOrder('registered_date'),
+                name: 'registeredDate',
             },
             {
-                label: tOrder('delivery_date'),
-                name: 'deliveryDate',
+                label: tOrder('confirmed_date'),
+                name: 'confirmedDate',
             },
             {
-                label: tOrder('reception_date'),
-                name: 'receptionDate',
+                label: tOrder('shipped_date'),
+                name: 'ShippedDate',
+            },
+            {
+                label: tOrder('delivered_date'),
+                name: 'deliveredDate',
+            },
+            {
+                label: tOrder('canceled_date'),
+                name: 'canceledDate',
             },
             {
                 label: tOrder('state'),

@@ -168,7 +168,6 @@ function AddEditClientDialog(props) {
                                             label={tGeneral("last_name")}
                                             variant="outlined"
                                             name="lastName"
-                                            required
                                             fullWidth
                                             defaultValue={selectedClient?.lastName}
                                             {...register('lastName')}

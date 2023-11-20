@@ -9,6 +9,10 @@ const locale = {
   PRODUCTS_MANAGER: 'Gestionnaire des produits',
   PRODUCTS: 'Produits',
   PRODUCTS_SUB: 'Gestionnaire des produits',
+  SUPPLIERS_MANAGER: 'Gestionnaire des fournisseurs',
+  SUPPLIERS_SUB: 'Gestionnaire des fournisseurs',
+  SUPPLIERS: 'Fournisseurs',
+  PURCHASES: 'Achats',
   CATEGORIES: 'Catégories',
 };
 

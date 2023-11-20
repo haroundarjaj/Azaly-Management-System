@@ -9,6 +9,10 @@ const locale = {
   PRODUCTS_MANAGER: 'إدارة المنتجات',
   PRODUCTS: 'المنتجات',
   PRODUCTS_SUB: 'قسم إدارة المنتجات',
+  SUPPLIERS_MANAGER: 'إدارة الموردين',
+  SUPPLIERS_SUB: 'قسم ادارة و تنظيم الموردين',
+  SUPPLIERS: 'الموردين',
+  PURCHASES: 'المشتريات',
   CATEGORIES: 'الفئات',
 };
 

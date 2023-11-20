@@ -23,7 +23,10 @@ const locale = {
   print: "طباعة",
   ref: "المرجع",
   type: "النوع",
-  unkown_error: "خلل غير معروف"
+  unkown_error: "خلل غير معروف",
+  state: "الحالة",
+  price: "السعر",
+  quantity: "الكمية",
 };
 
 export default locale;

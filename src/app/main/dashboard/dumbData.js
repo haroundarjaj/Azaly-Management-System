@@ -1,24 +1,24 @@
 export const widgets = {
     summary: {
         ranges: {
-            DY: "Yesterday",
-            DT: "Today",
-            DTM: "Tomorrow"
+            DW: "This week",
+            DM: "This month",
+            DY: "This year"
         },
-        currentRange: "DT",
+        currentRange: "DW",
         data: {
-            name: "Due Tasks",
+            name: "Orders",
             count: {
-                DY: 21,
-                DT: 25,
-                DTM: 19
+                DW: 21,
+                DM: 25,
+                DY: 19
             },
             extra: {
-                name: "Completed",
+                name: "Delivered",
                 count: {
-                    DY: 6,
-                    DT: 7,
-                    DTM: "-"
+                    DW: 6,
+                    DM: 7,
+                    DY: "-"
                 }
             }
         },

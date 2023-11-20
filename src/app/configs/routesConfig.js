@@ -9,11 +9,25 @@ import Error404Page from '../main/404/Error404Page';
 import ExampleConfig from '../main/example/ExampleConfig';
 import DashboardConfig from '../main/dashboard/DashboardConfig';
 import ClientsConfig from '../main/ClientsSection/clients/ClientsConfig';
-import ProductsConfig from '../main/ProductsSection/products/ProductsConfig';
-import CategoriesConfig from '../main/ProductsSection/categories/CategoriesConfig';
 import OrdersConfig from '../main/ClientsSection/orders/OrdersConfig';
+import ProductsConfig from '../main/ProductsSection/products/ProductsConfig';
+import SuppliersConfig from '../main/SuppliersSection/suppliers/SuppliersConfig';
+import PurchasesConfig from '../main/SuppliersSection/purchases/PurchasesConfig';
+import CategoriesConfig from '../main/ProductsSection/categories/CategoriesConfig';
 
-const routeConfigs = [ExampleConfig, DashboardConfig, ClientsConfig, OrdersConfig, ProductsConfig, CategoriesConfig, SignOutConfig, SignInConfig, SignUpConfig];
+const routeConfigs = [
+  ExampleConfig,
+  DashboardConfig,
+  ClientsConfig,
+  OrdersConfig,
+  SuppliersConfig,
+  PurchasesConfig,
+  ProductsConfig,
+  CategoriesConfig,
+  SignOutConfig,
+  SignInConfig,
+  SignUpConfig
+];
 
 const routes = [
   ...FuseUtils.generateRoutesFromConfigs(routeConfigs, settingsConfig.defaultAuth),

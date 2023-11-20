@@ -25,6 +25,7 @@ function ProductsGallery(props) {
 
 
     const tGeneral = useTranslation('generalTranslations').t;
+    const tProduct = useTranslation('productsPage').t;
     const tCategory = useTranslation('categoriesPage').t;
 
     const onClose = (event, reason) => {
@@ -127,7 +128,7 @@ function ProductsGallery(props) {
         >
             <DialogTitle>
                 <Typography variant="subtitle1" color="secondary">
-                    {tGeneral('products_gallery')}
+                    {tProduct('products_gallery')}
                 </Typography>
             </DialogTitle>
             <DialogContent>

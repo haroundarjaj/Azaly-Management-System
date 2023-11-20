@@ -9,7 +9,7 @@ function OrderStateDialog(props) {
     const tOrder = useTranslation('ordersPage').t;
     const tGeneral = useTranslation('generalTranslations').t;
 
-    const { order, open, handleClose, handleSave } = props;
+    const { open, handleClose } = props;
 
     const [selectedState, setSelectedState] = useState('registered');
 
@@ -32,14 +32,6 @@ function OrderStateDialog(props) {
         setSelectedState(event.target.value);
     };
 
-
-
-    useEffect(() => {
-        if (open) {
-            setSelectedState(order.state)
-        }
-    }, [open])
-
     return (
         <Dialog
             open={open}
@@ -49,7 +41,7 @@ function OrderStateDialog(props) {
         >
             <DialogTitle>
                 <Typography variant="subtitle1" color="secondary">
-                    {tOrder('update_state')}
+                    {tGeneral('info')}
                 </Typography>
             </DialogTitle>
             <DialogContent style={{ paddingTop: 20 }}>
@@ -69,7 +61,7 @@ function OrderStateDialog(props) {
                                 value={selectedState}
                                 onChange={handleChange}
                             >
-                                {GenerateOrderStates(tGeneral).map(state => (
+                                {GenerateOrderStates(tOrder).map(state => (
                                     <FormControlLabel
                                         value={state.value}
                                         control={<Radio color='secondary' />}
@@ -84,7 +76,7 @@ function OrderStateDialog(props) {
                     </Grid>
                     <Divider orientation="vertical" flexItem />
                     <Grid item xs={5}>
-                        <Typography variant="body1">{GenerateOrderStates(tGeneral).filter(state => state.value === selectedState)[0].description}</Typography>
+                        <Typography variant="body1">{GenerateOrderStates(tOrder).filter(state => state.value === selectedState)[0].description}</Typography>
                     </Grid>
                 </Grid>
 
@@ -92,9 +84,6 @@ function OrderStateDialog(props) {
             <DialogActions>
                 <Button onClick={onClose}>
                     {tGeneral('close')}
-                </Button>
-                <Button onClick={() => handleSave(selectedState, order.id)} color="secondary">
-                    {tGeneral('update')}
                 </Button>
             </DialogActions>
         </Dialog>

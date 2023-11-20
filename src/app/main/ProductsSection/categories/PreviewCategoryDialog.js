@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import '../../../utils/print/PrintStylesheet.css';
 import ImageUploader from 'app/theme-layouts/shared-components/ImageViewer/ImageUploader';
+import ReactToPrint from "react-to-print";
 
 function PreviewCategoryDialog(props) {
     const componentRef = useRef();
@@ -93,9 +94,15 @@ function PreviewCategoryDialog(props) {
                 <Button onClick={onClose}>
                     {tGeneral('close')}
                 </Button>
-                <Button onClick={() => { window.print() }} color="secondary" >
-                    {tGeneral('print')}
-                </Button>
+                <ReactToPrint
+                    bodyClass="print-agreement"
+                    content={() => componentRef.current}
+                    trigger={() => (
+                        <Button color="secondary" >
+                            {tGeneral('print')}
+                        </Button>
+                    )}
+                />
             </DialogActions>
         </Dialog>
     )

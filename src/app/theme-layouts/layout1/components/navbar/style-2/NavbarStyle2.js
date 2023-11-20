@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectFuseCurrentLayoutConfig } from 'app/store/fuse/settingsSlice';
 import NavbarStyle2Content from './NavbarStyle2Content';
 
-const navbarWidth = 180;
+const navbarWidth = 230;
 const navbarFoldedWidth = 50;
 
 const Root = styled('div')(({ theme, folded }) => ({

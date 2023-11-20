@@ -9,6 +9,8 @@ const locale = {
   unit_price: "Unit price",
   wholesale_price: "Wholesale price",
   category: "Category",
+  products_gallery: "Products gallery",
+  select_products: "Select products"
 };
 
 export default locale;

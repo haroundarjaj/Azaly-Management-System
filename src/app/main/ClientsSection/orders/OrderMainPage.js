@@ -14,6 +14,7 @@ import ProductsGallery from "app/theme-layouts/shared-components/ProductsGallery
 import GenerateOrderStates from "./GenerateOrderStates";
 import { Box } from "@mui/system";
 import OrderStateDialog from "./OrderStateDialog";
+import OrderTimeline from "./OrderTimeline";
 
 let setSelectedRowsFunc = null;
 
@@ -25,6 +26,7 @@ function OrderMainPage(props) {
     const [isOpenPreviewOrderDialog, setIsOpenPreviewOrderDialog] = useState(false);
     const [isOpenConfirmationDialog, setIsOpenConfirmationDialog] = useState(false);
     const [isOpenOrderStateDialog, setIsOpenOrderStateDialog] = useState(false);
+    const [isOpenOrderTimelineDialog, setIsOpenOrderTimelineDialog] = useState(false);
     const [allOrders, setAllOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [openProductsGallery, setOpenProductsGallery] = useState(false);
@@ -44,32 +46,40 @@ function OrderMainPage(props) {
                 }
             },
             {
-                label: tOrder('order_date'),
-                name: 'orderDate',
+                label: tOrder('registered_date'),
+                name: 'registeredDate',
             },
             {
-                label: tOrder('delivery_date'),
-                name: 'deliveryDate',
+                label: tOrder('confirmed_date'),
+                name: 'confirmedDate',
             },
             {
-                label: tOrder('reception_date'),
-                name: 'receptionDate',
+                label: tOrder('shipped_date'),
+                name: 'ShippedDate',
             },
             {
-                label: tOrder('state'),
+                label: tOrder('delivered_date'),
+                name: 'deliveredDate',
+            },
+            {
+                label: tOrder('canceled_date'),
+                name: 'canceledDate',
+            },
+            {
+                label: tGeneral('state'),
                 name: 'state',
                 options: {
                     filter: false,
                     sort: false,
                     empty: true,
                     download: false,
-                    customBodyRender: (value, tableMeta) => renderStateElement(value, tableMeta)
+                    customBodyRender: (value, tableMeta) => renderOrderTimeline(value, tableMeta)
 
                 }
 
             },
             {
-                label: tOrder('state'),
+                label: tGeneral('state'),
                 name: 'state',
                 options: {
                     display: false,
@@ -104,12 +114,14 @@ function OrderMainPage(props) {
         ]
     }
 
-    const renderStateElement = (value, tableMeta) => {
+    const renderOrderTimeline = (value, tableMeta) => {
         const index = tableMeta.tableState.page * tableMeta.tableState.rowsPerPage + tableMeta.rowIndex;
         setIndex(index)
-        const result = GenerateOrderStates(tGeneral).filter(state => state.value === value)[0];
+        const result = GenerateOrderStates(tOrder).filter(state => state.value === value)[0];
+        console.log(value)
+        console.log(result)
         return (
-            <Box onClick={() => handleOpenOrderStateDialog(allOrders[index])} sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props} style={{ cursor: 'pointer' }}>
+            <Box onClick={() => handleOpenOrderTimelineDialog(allOrders[index])} sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props} style={{ cursor: 'pointer' }}>
                 {result.icon}
                 {result.name}
             </Box>
@@ -172,6 +184,7 @@ function OrderMainPage(props) {
 
     const handleOpenDeleteConfirmation = (order, setSelectedRows) => {
         setSelectedOrder(order);
+        setSelectedRowsFunc = setSelectedRows;
         setIsOpenConfirmationDialog(true);
     }
 
@@ -185,8 +198,18 @@ function OrderMainPage(props) {
         setIsOpenOrderStateDialog(true);
     }
 
+    const handleOpenOrderTimelineDialog = (order) => {
+        setSelectedOrder(order);
+        setIsOpenOrderTimelineDialog(true);
+    }
+
     const handleCloseOrderStateDialog = () => {
         setIsOpenOrderStateDialog(false);
+        setSelectedOrder(null);
+    }
+
+    const handleCloseOrderTimelineDialog = () => {
+        setIsOpenOrderTimelineDialog(false);
         setSelectedOrder(null);
     }
 
@@ -226,6 +249,11 @@ function OrderMainPage(props) {
                 handleClose={handleCloseOrderStateDialog}
                 order={selectedOrder}
                 handleSave={handleSaveStateUpdate}
+            />
+            <OrderTimeline
+                open={isOpenOrderTimelineDialog}
+                handleClose={handleCloseOrderTimelineDialog}
+                order={selectedOrder}
             />
             <ProductsGallery
                 handleClose={handleCloseProductsGallery}

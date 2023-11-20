@@ -24,6 +24,9 @@ const locale = {
   ref: "Ref",
   type: "Type",
   unkown_error: "Unkown Error",
+  state: "State",
+  price: "Price",
+  quantity: "Quantity",
 };
 
 export default locale;

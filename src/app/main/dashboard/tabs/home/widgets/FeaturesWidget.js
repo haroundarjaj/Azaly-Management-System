@@ -18,9 +18,9 @@ function FeaturesWidget() {
         >
           {title}
         </Typography>
-        <IconButton aria-label="more" size="large">
+        {/* <IconButton aria-label="more" size="large">
           <FuseSvgIcon>heroicons-outline:dots-vertical</FuseSvgIcon>
-        </IconButton>
+        </IconButton> */}
       </div>
       <div className="text-center mt-8">
         <Typography className="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">

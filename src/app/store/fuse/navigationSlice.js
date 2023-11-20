@@ -61,9 +61,9 @@ export const selectNavigation = createSelector(
           item.title = i18next.t(`navigation:${item.titleTranslate}`);
         }
 
-        if (item.subtitleTranslate && item.subtitle) {
-          item.subtitle = i18next.t(`navigation:${item.subtitleTranslate}`);
-        }
+        // if (item.subtitleTranslate && item.subtitle) {
+        //   item.subtitle = i18next.t(`navigation:${item.subtitleTranslate}`);
+        // }
 
         // see if there is a children node
         if (item.children) {

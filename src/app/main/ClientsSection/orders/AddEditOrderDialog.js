@@ -15,6 +15,7 @@ import GenerateOrderStates from "./GenerateOrderStates";
 
 function AddEditOrderDialog(props) {
     const tOrder = useTranslation('ordersPage').t;
+    const tProduct = useTranslation('productsPage').t;
     const tGeneral = useTranslation('generalTranslations').t;
 
     const {
@@ -31,9 +32,11 @@ function AddEditOrderDialog(props) {
 
     const [clients, setClients] = useState([]);
     const [selectedClient, setSelectedClient] = useState(null);
-    const [orderDate, setOrderDate] = useState(new Date());
-    const [deliveryDate, setDeliveryDate] = useState(null);
-    const [receptionDate, setReceptionDate] = useState(null);
+    const [registeredDate, setRegisteredDate] = useState(new Date());
+    const [confirmedDate, setConfirmedDate] = useState(null);
+    const [shippedDate, setShippedDate] = useState(null);
+    const [deliveredDate, setDeliveredDate] = useState(null);
+    const [canceledDate, setCanceledDate] = useState(null);
     const [openProductsGallery, setOpenProductsGallery] = useState(false);
     const [productsList, setProductsList] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
@@ -53,15 +56,15 @@ function AddEditOrderDialog(props) {
     };
 
     const handleSave = (data) => {
-        console.log(orderDate.toLocaleString())
-        console.log(orderDate.toISOString())
-        console.log(orderDate.format('DD/MM/YYYY HH:mm:ss'))
         const order = {
             ...data,
+            state: GenerateOrderStates(tOrder).filter(elem => elem.name === data.state)[0].value,
             orderProducts: productsList,
-            orderDate: orderDate?.format('DD/MM/YYYY HH:mm:ss'),
-            deliveryDate: deliveryDate?.format('DD/MM/YYYY HH:mm:ss'),
-            receptionDate: receptionDate?.format('DD/MM/YYYY HH:mm:ss'),
+            registeredDate: registeredDate ? moment(registeredDate).format('DD/MM/YYYY HH:mm:ss') : "",
+            confirmedDate: confirmedDate ? moment(confirmedDate).format('DD/MM/YYYY HH:mm:ss') : "",
+            shippedDate: shippedDate ? moment(shippedDate).format('DD/MM/YYYY HH:mm:ss') : "",
+            deliveredDate: deliveredDate ? moment(deliveredDate).format('DD/MM/YYYY HH:mm:ss') : "",
+            canceledDate: canceledDate ? moment(canceledDate).format('DD/MM/YYYY HH:mm:ss') : "",
             clientId: selectedClient.id,
             totalAmount: totalAmount
         }
@@ -124,9 +127,11 @@ function AddEditOrderDialog(props) {
     useEffect(() => {
         if (open && selectedOrder) {
             reset(selectedOrder)
-            setOrderDate(moment(selectedOrder.orderDate, 'DD/MM/YYYY hh:mm:ss'))
-            setDeliveryDate(selectedOrder.deliveryDate ? moment(selectedOrder.deliveryDate, 'DD/MM/YYYY hh:mm:ss') : null)
-            setReceptionDate(selectedOrder.receptionDate ? moment(selectedOrder.receptionDate, 'DD/MM/YYYY hh:mm:ss') : null)
+            setRegisteredDate(moment(selectedOrder.registeredDate, 'DD/MM/YYYY hh:mm:ss'))
+            setConfirmedDate(selectedOrder.confirmedDate ? moment(selectedOrder.confirmedDate, 'DD/MM/YYYY hh:mm:ss') : null)
+            setShippedDate(selectedOrder.shippedDate ? moment(selectedOrder.shippedDate, 'DD/MM/YYYY hh:mm:ss') : null)
+            setDeliveredDate(selectedOrder.deliveredDate ? moment(selectedOrder.deliveredDate, 'DD/MM/YYYY hh:mm:ss') : null)
+            setCanceledDate(selectedOrder.canceledDate ? moment(selectedOrder.canceledDate, 'DD/MM/YYYY hh:mm:ss') : null)
             setSelectedClient(clients.find(x => x.id === selectedOrder.clientId))
             setTotalAmount(selectedOrder.totalAmount)
             setProductsList(selectedOrder.orderProducts)
@@ -134,13 +139,17 @@ function AddEditOrderDialog(props) {
             reset({
                 ref: '',
                 state: "registered",
-                orderDate: '',
-                deliveryDate: '',
-                receptionDate: '',
+                registeredDate: '',
+                confirmedDate: '',
+                shippedDate: '',
+                deliveredDate: '',
+                canceledDate: '',
             });
-            setOrderDate(new Date())
-            setDeliveryDate(null)
-            setReceptionDate(null)
+            setRegisteredDate(new Date())
+            setConfirmedDate(null)
+            setShippedDate(null)
+            setDeliveredDate(null)
+            setCanceledDate(null)
             setSelectedClient(null)
             setProductsList([])
             setTotalAmount(0)
@@ -183,7 +192,7 @@ function AddEditOrderDialog(props) {
                         container
                         spacing={2}
                         alignItems="center"
-                        justifyContent="center"
+                        justifyContent="space-between"
                     >
                         <Grid item xs={12} md={6}>
                             <TextField
@@ -200,8 +209,26 @@ function AddEditOrderDialog(props) {
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <AutoComplete
-                                defaultValue={selectedOrder ? { name: tGeneral(selectedOrder?.state), value: selectedOrder?.state } : { name: tGeneral("registered"), value: "registered" }}
-                                options={GenerateOrderStates(tGeneral)}
+                                options={clients}
+                                getOptionLabel={(option) => `${option?.firstName} ${option?.lastName}` || ''}
+                                isOptionEqualToValue={(option, value) => option.id === value.id}
+                                fullWidth
+                                value={selectedClient}
+                                onChange={(e, newValue) => handleChangeClient(newValue)}
+                                renderInput={(params) =>
+                                    <TextField
+                                        id="client"
+                                        name="client"
+                                        {...params}
+                                        label={tGeneral("client")}
+                                    />
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <AutoComplete
+                                defaultValue={selectedOrder ? { name: tOrder(selectedOrder?.state), value: selectedOrder?.state } : { name: tOrder("registered"), value: "registered" }}
+                                options={GenerateOrderStates(tOrder)}
                                 getOptionLabel={(option) => option.name || ''}
                                 isOptionEqualToValue={(option, value) => option.value === value.value}
                                 fullWidth
@@ -224,39 +251,21 @@ function AddEditOrderDialog(props) {
                                 }
                             />
                         </Grid>
-                        <Grid item xs={12} md={12}>
-                            <AutoComplete
-                                options={clients}
-                                getOptionLabel={(option) => `${option.firstName} ${option.lastName}` || ''}
-                                isOptionEqualToValue={(option, value) => option.id === value.id}
-                                fullWidth
-                                value={selectedClient}
-                                onChange={(e, newValue) => handleChangeClient(newValue)}
-                                renderInput={(params) =>
-                                    <TextField
-                                        id="client"
-                                        name="client"
-                                        {...params}
-                                        label={tGeneral("client")}
-                                    />
-                                }
-                            />
-                        </Grid>
                         <Grid item xs={12} md={4}>
                             <DateTimePicker
-                                value={orderDate}
+                                value={registeredDate}
                                 onChange={(value) => {
                                     console.log(value)
-                                    setOrderDate(value)
+                                    setRegisteredDate(value)
                                 }}
                                 ampm={false}
                                 renderInput={(params) =>
                                     <TextField
-                                        id="orderDate"
-                                        name="orderDate"
+                                        id="registeredDate"
+                                        name="registeredDate"
                                         {...params}
-                                        label={tOrder("order_date")}
-                                        {...register('orderDate')}
+                                        label={tOrder("registered_date")}
+                                        {...register('registeredDate')}
                                         required
                                     />
                                 }
@@ -264,32 +273,64 @@ function AddEditOrderDialog(props) {
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <DateTimePicker
-                                value={deliveryDate}
-                                onChange={setDeliveryDate}
+                                value={confirmedDate}
+                                onChange={setConfirmedDate}
                                 ampm={false}
                                 renderInput={(params) =>
                                     <TextField
-                                        id="deliveryDate"
-                                        name="deliveryDate"
+                                        id="confirmedDate"
+                                        name="confirmedDate"
                                         {...params}
-                                        label={tOrder("delivery_date")}
-                                        {...register('deliveryDate')}
+                                        label={tOrder("confirmed_date")}
+                                        {...register('confirmedDate')}
                                     />
                                 }
                             />
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <DateTimePicker
-                                value={receptionDate}
-                                onChange={setReceptionDate}
+                                value={shippedDate}
+                                onChange={setShippedDate}
                                 ampm={false}
                                 renderInput={(params) =>
                                     <TextField
-                                        id="receptionDate"
-                                        name="receptionDate"
+                                        id="shippedDate"
+                                        name="shippedDate"
                                         {...params}
-                                        label={tOrder("reception_date")}
-                                        {...register('receptionDate')}
+                                        label={tOrder("shipped_date")}
+                                        {...register('shippedDate')}
+                                    />
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <DateTimePicker
+                                value={deliveredDate}
+                                onChange={setDeliveredDate}
+                                ampm={false}
+                                renderInput={(params) =>
+                                    <TextField
+                                        id="deliveredDate"
+                                        name="deliveredDate"
+                                        {...params}
+                                        label={tOrder("delivered_date")}
+                                        {...register('deliveredDate')}
+                                    />
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <DateTimePicker
+                                value={canceledDate}
+                                onChange={setCanceledDate}
+                                ampm={false}
+                                renderInput={(params) =>
+                                    <TextField
+                                        id="canceledDate"
+                                        name="canceledDate"
+                                        {...params}
+                                        label={tOrder("canceled_date")}
+                                        {...register('canceledDate')}
                                     />
                                 }
                             />
@@ -297,7 +338,7 @@ function AddEditOrderDialog(props) {
                         <Grid item xs={12} md={4}>
                             <div className="flex justify-center">
                                 <Button variant="contained" onClick={handleOpenProductsGallery} color="secondary">
-                                    {tOrder('select_products')}
+                                    {tProduct('select_products')}
                                 </Button>
                             </div>
                         </Grid>

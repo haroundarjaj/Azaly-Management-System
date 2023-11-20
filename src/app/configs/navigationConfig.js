@@ -51,6 +51,33 @@ const navigationConfig = [
     ]
   },
   {
+    id: 'suppliers-manager',
+    title: 'Suppliers Manager',
+    titleTranslate: 'SUPPLIERS_MANAGER',
+    subtitle: 'Suppliers Management Section',
+    subtitleTranslate: 'SUPPLIERS_SUB',
+    type: 'group',
+    icon: 'heroicons-outline:user-group',
+    children: [
+      {
+        id: 'suppliers-component',
+        title: 'Suppliers',
+        titleTranslate: 'SUPPLIERS',
+        type: 'item',
+        icon: 'heroicons-outline:user-group',
+        url: 'suppliers',
+      },
+      {
+        id: 'purchases-component',
+        title: 'Purchases',
+        titleTranslate: 'PURCHASES',
+        type: 'item',
+        icon: 'heroicons-outline:clipboard-list',
+        url: 'purchases',
+      },
+    ]
+  },
+  {
     id: 'products-manager',
     title: 'Products Manager',
     titleTranslate: 'PRODUCTS_MANAGER',

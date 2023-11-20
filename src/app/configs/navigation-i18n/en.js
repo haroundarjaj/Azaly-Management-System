@@ -9,6 +9,10 @@ const locale = {
   PRODUCTS: 'Products',
   PRODUCTS_MANAGER: 'Products Manager',
   PRODUCTS_SUB: 'Products Management Section',
+  SUPPLIERS_MANAGER: 'Suppliers Manager',
+  SUPPLIERS_SUB: 'Suppliers Management Section',
+  SUPPLIERS: 'Suppliers',
+  PURCHASES: 'Purchases',
   CATEGORIES: 'Categories',
 };
 

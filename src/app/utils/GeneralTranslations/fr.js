@@ -23,7 +23,10 @@ const locale = {
     print: "Imprimer",
     ref: "Réf",
     type: "Type",
-    unkown_error: "Erreur inconnu"
+    unkown_error: "Erreur inconnu",
+    state: "État",
+    price: "Prix",
+    quantity: "Quantité",
 };
 
 export default locale;

@@ -1,13 +1,13 @@
 const locale = {
-  TITLE: 'Clients',
-  DESC: 'The table below contains a list of all "Azaly" customers.',
-  table_title: 'Clients list',
-  add_title: 'Add a new client',
-  add_desc: 'Fill the form then click save to create a new client.',
-  edit_title: 'Edit client',
-  edit_desc: 'Fill the form then click save to update the client.',
+  TITLE: 'Suppliers',
+  DESC: 'The table below contains a list of suppliers.',
+  table_title: 'Suppliers list',
+  add_title: 'Add a new supplier',
+  add_desc: 'Fill the form then click save to create a new supplier.',
+  edit_title: 'Edit supplier',
+  edit_desc: 'Fill the form then click save to update the supplier.',
   individual: 'Individual',
-  individual_client: 'Individual client'
+  individual_supplier: 'Individual supplier'
 };
 
 export default locale;
