@@ -10,10 +10,8 @@ import PaperBlock from "app/theme-layouts/shared-components/PaperBlock/PaperBloc
 import InformationDialog from "app/theme-layouts/shared-components/InformationDialog.js/InformationDialog";
 import PreviewPurchaseDialog from "./PreviewPurchaseDialog";
 import FuseSvgIcon from "@fuse/core/FuseSvgIcon/FuseSvgIcon";
-import ProductsGallery from "app/theme-layouts/shared-components/ProductsGallery/ProductsGallery";
-import GeneratePurchaseStates from "./GeneratePurchaseStates";
+import FeedstockList from "app/theme-layouts/shared-components/FeedstockList/FeedstockList";
 import { Box } from "@mui/system";
-import PurchaseStateDialog from "./PurchaseStateDialog";
 
 let setSelectedRowsFunc = null;
 
@@ -24,12 +22,10 @@ function PurchaseMainPage(props) {
     const [isOpenAddEditPurchaseDialog, setIsOpenAddEditPurchaseDialog] = useState(false);
     const [isOpenPreviewPurchaseDialog, setIsOpenPreviewPurchaseDialog] = useState(false);
     const [isOpenConfirmationDialog, setIsOpenConfirmationDialog] = useState(false);
-    const [isOpenPurchaseStateDialog, setIsOpenPurchaseStateDialog] = useState(false);
     const [allPurchases, setAllPurchases] = useState([]);
     const [selectedPurchase, setSelectedPurchase] = useState(null);
-    const [openProductsGallery, setOpenProductsGallery] = useState(false);
+    const [openFeedstockList, setOpenFeedstockList] = useState(false);
     const [viewProductsList, setViewProductsList] = useState(null);
-    const [index, setIndex] = useState(0);
 
     const dispatch = useDispatch();
 
@@ -44,57 +40,23 @@ function PurchaseMainPage(props) {
                 }
             },
             {
-                label: tPurchase('purchase_date'),
-                name: 'purchaseDate',
+                label: tGeneral('date'),
+                name: 'date'
             },
             {
-                label: tPurchase('delivery_date'),
-                name: 'deliveryDate',
-            },
-            {
-                label: tPurchase('reception_date'),
-                name: 'receptionDate',
-            },
-            {
-                label: tPurchase('state'),
-                name: 'state',
-                options: {
-                    filter: false,
-                    sort: false,
-                    empty: true,
-                    download: false,
-                    customBodyRender: (value, tableMeta) => renderStateElement(value, tableMeta)
-
-                }
-
-            },
-            {
-                label: tPurchase('state'),
-                name: 'state',
-                options: {
-                    display: false,
-                    viewColumns: false
-                }
-
-            },
-            {
-                label: tPurchase('total_amount'),
+                label: `${tGeneral('total_amount')} (MAD)`,
                 name: 'totalAmount',
             },
             {
-                label: tPurchase('reduction'),
-                name: 'reduction',
-            },
-            {
-                label: tPurchase('products'),
-                name: 'purchaseProducts',
+                label: tGeneral('items'),
+                name: 'purchasedFeedstock',
                 options: {
                     filter: false,
                     sort: false,
                     empty: true,
                     download: false,
                     customBodyRender: (value, row) => (
-                        <IconButton onClick={() => handleOpenProductsGallery(value)} className="mx-8" size="large">
+                        <IconButton onClick={() => handleOpenFeedstockList(value)} className="mx-8" size="large">
                             <FuseSvgIcon>heroicons-solid:eye</FuseSvgIcon>
                         </IconButton>
                     )
@@ -104,26 +66,14 @@ function PurchaseMainPage(props) {
         ]
     }
 
-    const renderStateElement = (value, tableMeta) => {
-        const index = tableMeta.tableState.page * tableMeta.tableState.rowsPerPage + tableMeta.rowIndex;
-        setIndex(index)
-        const result = GeneratePurchaseStates(tGeneral).filter(state => state.value === value)[0];
-        return (
-            <Box onClick={() => handleOpenPurchaseStateDialog(allPurchases[index])} sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props} style={{ cursor: 'pointer' }}>
-                {result.icon}
-                {result.name}
-            </Box>
-        )
-    }
-
-    const handleOpenProductsGallery = (productsList) => {
+    const handleOpenFeedstockList = (productsList) => {
         console.log(productsList)
-        setOpenProductsGallery(true);
+        setOpenFeedstockList(true);
         setViewProductsList(productsList)
     }
 
-    const handleCloseProductsGallery = () => {
-        setOpenProductsGallery(false);
+    const handleCloseFeedstockList = () => {
+        setOpenFeedstockList(false);
     }
 
     const handleOpenAddEditPurchaseDialog = () => {
@@ -173,21 +123,12 @@ function PurchaseMainPage(props) {
     const handleOpenDeleteConfirmation = (purchase, setSelectedRows) => {
         setSelectedPurchase(purchase);
         setIsOpenConfirmationDialog(true);
+        setSelectedRowsFunc = setSelectedRows;
     }
 
     const handleCloseDeleteConfirmation = () => {
         setSelectedPurchase(null);
         setIsOpenConfirmationDialog(false);
-    }
-
-    const handleOpenPurchaseStateDialog = (purchase) => {
-        setSelectedPurchase(purchase);
-        setIsOpenPurchaseStateDialog(true);
-    }
-
-    const handleClosePurchaseStateDialog = () => {
-        setIsOpenPurchaseStateDialog(false);
-        setSelectedPurchase(null);
     }
 
     const handleDelete = () => {
@@ -204,15 +145,6 @@ function PurchaseMainPage(props) {
         });
     }
 
-    const handleSaveStateUpdate = (state, purchaseId) => {
-        PurchaseService.updateState(state, purchaseId)
-            .then((response) => {
-                const data = allPurchases;
-                data[index].state = state;
-                setAllPurchases(data)
-            })
-    }
-
     useEffect(() => {
         PurchaseService.getAll().then(({ data }) => {
             setAllPurchases(data);
@@ -221,16 +153,10 @@ function PurchaseMainPage(props) {
 
     return (
         <div className="p-24 w-full">
-            <PurchaseStateDialog
-                open={isOpenPurchaseStateDialog}
-                handleClose={handleClosePurchaseStateDialog}
-                purchase={selectedPurchase}
-                handleSave={handleSaveStateUpdate}
-            />
-            <ProductsGallery
-                handleClose={handleCloseProductsGallery}
-                open={openProductsGallery}
-                data={viewProductsList?.map(purchaseProduct => purchaseProduct.product)}
+            <FeedstockList
+                handleClose={handleCloseFeedstockList}
+                open={openFeedstockList}
+                data={viewProductsList?.map(purchaseProduct => purchaseProduct.item)}
                 selectedElements={viewProductsList}
                 preview
             />

@@ -27,6 +27,11 @@ const locale = {
     state: "État",
     price: "Prix",
     quantity: "Quantité",
+    date: "Date",
+    items: "Articles",
+    total_amount: "Montant total",
+    no_data_to_show: "Aucune donnée à afficher",
+    ref_already_exist: 'Le numéro de référence existe déjà'
 };
 
 export default locale;

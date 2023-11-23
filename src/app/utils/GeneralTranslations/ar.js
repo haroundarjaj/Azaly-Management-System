@@ -27,6 +27,11 @@ const locale = {
   state: "الحالة",
   price: "السعر",
   quantity: "الكمية",
+  date: "التاريخ",
+  items: "العناصر",
+  total_amount: "المبلغ الاجمالي",
+  no_data_to_show: "لا توجد بيانات لعرضها",
+  ref_already_exist: 'الرقم المرجعي موجود بالفعل'
 };
 
 export default locale;

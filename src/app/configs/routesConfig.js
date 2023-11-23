@@ -13,6 +13,7 @@ import OrdersConfig from '../main/ClientsSection/orders/OrdersConfig';
 import ProductsConfig from '../main/ProductsSection/products/ProductsConfig';
 import SuppliersConfig from '../main/SuppliersSection/suppliers/SuppliersConfig';
 import PurchasesConfig from '../main/SuppliersSection/purchases/PurchasesConfig';
+import FeedstockConfig from '../main/SuppliersSection/feedstock/FeedstockConfig';
 import CategoriesConfig from '../main/ProductsSection/categories/CategoriesConfig';
 
 const routeConfigs = [
@@ -22,6 +23,7 @@ const routeConfigs = [
   OrdersConfig,
   SuppliersConfig,
   PurchasesConfig,
+  FeedstockConfig,
   ProductsConfig,
   CategoriesConfig,
   SignOutConfig,

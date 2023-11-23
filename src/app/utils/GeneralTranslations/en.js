@@ -27,6 +27,11 @@ const locale = {
   state: "State",
   price: "Price",
   quantity: "Quantity",
+  date: "Date",
+  items: "Items",
+  total_amount: "Total amount",
+  no_data_to_show: "No data to show",
+  ref_already_exist: 'Reference number already exist',
 };
 
 export default locale;

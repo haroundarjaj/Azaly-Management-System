@@ -1,11 +1,11 @@
 const locale = {
-  TITLE: 'Orders',
-  DESC: 'The table below contains a list of all the orders.',
-  table_title: 'Orders list',
-  add_title: 'Add a new order',
-  add_desc: 'Fill the form then click save to create a new order.',
-  edit_title: 'Edit order',
-  edit_desc: 'Fill the form then click save to update the order.',
+  TITLE: 'Purchases',
+  DESC: 'The table below contains a list of all the purchases.',
+  table_title: 'Purchases list',
+  add_title: 'Add a new purchase',
+  add_desc: 'Fill the form then click save to create a new purchase.',
+  edit_title: 'Edit purchase',
+  edit_desc: 'Fill the form then click save to update the purchase.',
 };
 
 export default locale;

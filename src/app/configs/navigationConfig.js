@@ -72,8 +72,16 @@ const navigationConfig = [
         title: 'Purchases',
         titleTranslate: 'PURCHASES',
         type: 'item',
-        icon: 'heroicons-outline:clipboard-list',
+        icon: 'heroicons-outline:shopping-cart',
         url: 'purchases',
+      },
+      {
+        id: 'feedstock-component',
+        title: 'Feedstock',
+        titleTranslate: 'FEEDSTOCK',
+        type: 'item',
+        icon: 'heroicons-outline:archive',
+        url: 'feedstock',
       },
     ]
   },

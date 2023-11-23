@@ -88,7 +88,7 @@ function OrderMainPage(props) {
 
             },
             {
-                label: tOrder('total_amount'),
+                label: `${tOrder('total_amount')} (MAD)`,
                 name: 'totalAmount',
             },
             {
@@ -122,8 +122,8 @@ function OrderMainPage(props) {
         console.log(result)
         return (
             <Box onClick={() => handleOpenOrderTimelineDialog(allOrders[index])} sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props} style={{ cursor: 'pointer' }}>
-                {result.icon}
-                {result.name}
+                {result?.icon}
+                {result?.name}
             </Box>
         )
     }

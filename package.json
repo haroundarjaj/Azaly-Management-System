@@ -1,6 +1,6 @@
 {
     "name": "azaly-management-app",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Azaly merch management system",
     "homepage": "./",
     "main": "public/electron.js",
@@ -10,13 +10,15 @@
         "productName": "Azaly Management",
         "asar": true,
         "asarUnpack": [
-            "Sacp-project.jar"
+            "azaly-management-server.jar",
+            "Release Notes.txt"
         ],
         "files": [
             "build/**/**/*",
             "node_modules/**/*",
             "main.js",
-            "Sacp-project.jar"
+            "azaly-management-server.jar",
+            "Release Notes.txt"
         ],
         "directories": {
             "buildResources": "assets"

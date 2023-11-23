@@ -1,0 +1,7 @@
+************** 23/11/2023 **************
+version released: v1.1.0
+what's new:
+- Adding the suppliers managemenet section that contains:
+	- Suppliers section to manage the suppliers.
+	- Feedstock section to manage the feedstock items and materials. 
+	- Purchases section to manage all the purchases made from a specific supplier, where the user can select the 	feedstock items purchased and assign them to the purchase.

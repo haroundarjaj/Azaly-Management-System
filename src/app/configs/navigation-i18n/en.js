@@ -13,6 +13,7 @@ const locale = {
   SUPPLIERS_SUB: 'Suppliers Management Section',
   SUPPLIERS: 'Suppliers',
   PURCHASES: 'Purchases',
+  FEEDSTOCK: 'Feedstock',
   CATEGORIES: 'Categories',
 };
 

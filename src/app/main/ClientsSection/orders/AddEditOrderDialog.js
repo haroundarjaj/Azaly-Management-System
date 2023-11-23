@@ -6,7 +6,6 @@ import "profile-picture/build/ProfilePicture.css";
 import OrderService from "src/app/services/OrderService";
 import { useForm } from "react-hook-form";
 import AutoComplete from "app/theme-layouts/shared-components/AutoComplete";
-import { SaveAs, ThumbUpAlt, DeliveryDining, CheckCircle, Cancel } from '@mui/icons-material';
 import ClientService from "src/app/services/ClientService";
 import { DateTimePicker } from '@mui/x-date-pickers';
 import ProductsGallery from "app/theme-layouts/shared-components/ProductsGallery/ProductsGallery";
@@ -58,7 +57,7 @@ function AddEditOrderDialog(props) {
     const handleSave = (data) => {
         const order = {
             ...data,
-            state: GenerateOrderStates(tOrder).filter(elem => elem.name === data.state)[0].value,
+            state: GenerateOrderStates(tOrder).filter(elem => elem.value === data.state)[0].value,
             orderProducts: productsList,
             registeredDate: registeredDate ? moment(registeredDate).format('DD/MM/YYYY HH:mm:ss') : "",
             confirmedDate: confirmedDate ? moment(confirmedDate).format('DD/MM/YYYY HH:mm:ss') : "",
@@ -68,7 +67,7 @@ function AddEditOrderDialog(props) {
             clientId: selectedClient.id,
             totalAmount: totalAmount
         }
-        console.log(order);
+        console.log("testadd", order);
         if (selectedOrder) {
             order.id = selectedOrder.id;
             OrderService.update(order).then(({ data }) => {
@@ -354,6 +353,7 @@ function AddEditOrderDialog(props) {
                                 value={totalAmount}
                                 {...register('totalAmount', { valueAsNumber: true })}
                                 InputProps={{
+                                    endAdornment: <InputAdornment position="end">MAD</InputAdornment>,
                                     readOnly: true,
                                     inputProps: { min: 0 }
                                 }}
@@ -392,7 +392,7 @@ function AddEditOrderDialog(props) {
                 <Button onClick={onClose}>
                     {tGeneral('close')}
                 </Button>
-                <Button onClick={handleSave} color="secondary" type="submit" form="add-order-form">
+                <Button color="secondary" type="submit" form="add-order-form">
                     {tGeneral('save')}
                 </Button>
             </DialogActions>

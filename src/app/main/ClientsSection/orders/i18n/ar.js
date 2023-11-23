@@ -14,7 +14,6 @@ const locale = {
   total_amount: 'المبلغ الإجمالي',
   reduction: 'التخفيض (%)',
   products: 'المنتجات',
-  ref_already_exist: 'الرقم المرجعي للطلب موجود بالفعل',
   update_state: 'تحديث الحالة',
   registered_description: 'تم تسجيل الطلب في النظام',
   confirmed_description: 'تم تأكيد الطلب وجاهز للتسليم',

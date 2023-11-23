@@ -13,6 +13,7 @@ const locale = {
   SUPPLIERS_SUB: 'قسم ادارة و تنظيم الموردين',
   SUPPLIERS: 'الموردين',
   PURCHASES: 'المشتريات',
+  FEEDSTOCK: 'المواد الاولية',
   CATEGORIES: 'الفئات',
 };
 

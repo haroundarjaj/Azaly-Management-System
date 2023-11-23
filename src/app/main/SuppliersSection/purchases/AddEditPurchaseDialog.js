@@ -6,14 +6,13 @@ import "profile-picture/build/ProfilePicture.css";
 import PurchaseService from "src/app/services/PurchaseService";
 import { useForm } from "react-hook-form";
 import AutoComplete from "app/theme-layouts/shared-components/AutoComplete";
-import { SaveAs, ThumbUpAlt, DeliveryDining, CheckCircle, Cancel } from '@mui/icons-material';
-import ClientService from "src/app/services/ClientService";
+import SupplierService from "src/app/services/SupplierService";
 import { DateTimePicker } from '@mui/x-date-pickers';
-import ProductsGallery from "app/theme-layouts/shared-components/ProductsGallery/ProductsGallery";
+import FeedstockList from "app/theme-layouts/shared-components/FeedstockList/FeedstockList";
 import moment from "moment";
-import GeneratePurchaseStates from "./GeneratePurchaseStates";
 
 function AddEditPurchaseDialog(props) {
+    const tFeedstock = useTranslation('feedstockPage').t;
     const tPurchase = useTranslation('purchasesPage').t;
     const tGeneral = useTranslation('generalTranslations').t;
 
@@ -29,13 +28,11 @@ function AddEditPurchaseDialog(props) {
 
     const { register, handleSubmit, reset, getValues } = useForm({ mode: 'onTouched' });
 
-    const [clients, setClients] = useState([]);
-    const [selectedClient, setSelectedClient] = useState(null);
+    const [suppliers, setSuppliers] = useState([]);
+    const [selectedSupplier, setSelectedSupplier] = useState(null);
     const [purchaseDate, setPurchaseDate] = useState(new Date());
-    const [deliveryDate, setDeliveryDate] = useState(null);
-    const [receptionDate, setReceptionDate] = useState(null);
-    const [openProductsGallery, setOpenProductsGallery] = useState(false);
-    const [productsList, setProductsList] = useState([]);
+    const [openFeedstockList, setOpenFeedstockList] = useState(false);
+    const [feedstockItems, setFeedstockItems] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
 
     const onClose = (event, reason) => {
@@ -53,19 +50,14 @@ function AddEditPurchaseDialog(props) {
     };
 
     const handleSave = (data) => {
-        console.log(purchaseDate.toLocaleString())
-        console.log(purchaseDate.toISOString())
-        console.log(purchaseDate.format('DD/MM/YYYY HH:mm:ss'))
         const purchase = {
             ...data,
-            purchaseProducts: productsList,
-            purchaseDate: purchaseDate?.format('DD/MM/YYYY HH:mm:ss'),
-            deliveryDate: deliveryDate?.format('DD/MM/YYYY HH:mm:ss'),
-            receptionDate: receptionDate?.format('DD/MM/YYYY HH:mm:ss'),
-            clientId: selectedClient.id,
+            purchasedFeedstock: feedstockItems,
+            date: moment(purchaseDate).format('DD/MM/YYYY HH:mm:ss'),
+            supplierId: selectedSupplier.id,
             totalAmount: totalAmount
         }
-        console.log(purchase);
+        console.log("testadd", purchase);
         if (selectedPurchase) {
             purchase.id = selectedPurchase.id;
             PurchaseService.update(purchase).then(({ data }) => {
@@ -88,73 +80,54 @@ function AddEditPurchaseDialog(props) {
         };
     }
 
-    const handleOpenProductsGallery = () => {
-        setOpenProductsGallery(true);
+    const handleOpenFeedstockList = () => {
+        setOpenFeedstockList(true);
     }
 
-    const handleCloseProductsGallery = () => {
-        setOpenProductsGallery(false);
+    const handleCloseFeedstockList = () => {
+        setOpenFeedstockList(false);
     }
 
-    const handleCountTotalAmount = (list, reductionValue) => {
+    const handleSaveSelectingFeedstockItems = (list) => {
+        setFeedstockItems(list);
         let total = 0;
         list.forEach(elem => {
             total += elem.price * elem.quantity;
         })
-        console.log(reductionValue)
-        if (reductionValue !== 0) {
-            total = total - (total * reductionValue) / 100;
-        }
         setTotalAmount(total)
     }
-    const handleSaveSelectingProducts = (list) => {
-        setProductsList(list);
-        handleCountTotalAmount(list, getValues('reduction'));
-    }
 
-    const handleChangeReduction = (e) => {
-        handleCountTotalAmount(productsList, e.target.value);
-    }
-
-    const handleChangeClient = (newValue) => {
+    const handleChangeSupplier = (newValue) => {
         console.log(newValue);
-        setSelectedClient(newValue)
+        setSelectedSupplier(newValue)
     }
 
     useEffect(() => {
         if (open && selectedPurchase) {
             reset(selectedPurchase)
-            setPurchaseDate(moment(selectedPurchase.purchaseDate, 'DD/MM/YYYY hh:mm:ss'))
-            setDeliveryDate(selectedPurchase.deliveryDate ? moment(selectedPurchase.deliveryDate, 'DD/MM/YYYY hh:mm:ss') : null)
-            setReceptionDate(selectedPurchase.receptionDate ? moment(selectedPurchase.receptionDate, 'DD/MM/YYYY hh:mm:ss') : null)
-            setSelectedClient(clients.find(x => x.id === selectedPurchase.clientId))
+            setPurchaseDate(moment(selectedPurchase.purchaseDate))
+            setSelectedSupplier(suppliers.find(x => x.id === selectedPurchase.supplierId))
             setTotalAmount(selectedPurchase.totalAmount)
-            setProductsList(selectedPurchase.purchaseProducts)
+            setFeedstockItems(selectedPurchase.purchasedFeedstock)
         } else {
             reset({
                 ref: '',
-                state: "registered",
-                purchaseDate: '',
-                deliveryDate: '',
-                receptionDate: '',
+                date: '',
             });
-            setPurchaseDate(new Date())
-            setDeliveryDate(null)
-            setReceptionDate(null)
-            setSelectedClient(null)
-            setProductsList([])
+            setSelectedSupplier(null)
+            setFeedstockItems([])
             setTotalAmount(0)
         };
     }, [open])
 
     useEffect(() => {
-        ClientService.getAll().then(({ data }) => {
+        SupplierService.getAll().then(({ data }) => {
             data.sort((a, b) => {
                 const textA = a.firstName.toUpperCase();
                 const textB = b.firstName.toUpperCase();
                 return textA < textB ? -1 : textA > textB ? 1 : 0;
             });
-            setClients(data);
+            setSuppliers(data);
         })
     }, [])
 
@@ -200,49 +173,23 @@ function AddEditPurchaseDialog(props) {
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <AutoComplete
-                                defaultValue={selectedPurchase ? { name: tGeneral(selectedPurchase?.state), value: selectedPurchase?.state } : { name: tGeneral("registered"), value: "registered" }}
-                                options={GeneratePurchaseStates(tGeneral)}
-                                getOptionLabel={(option) => option.name || ''}
-                                isOptionEqualToValue={(option, value) => option.value === value.value}
-                                fullWidth
-                                renderOption={(props, option) => (
-                                    <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                                        {option.icon}
-                                        {option.name}
-                                    </Box>
-                                )}
-                                readOnly={!selectedPurchase}
-                                renderInput={(params) =>
-                                    <TextField
-                                        id="state"
-                                        name="state"
-                                        {...params}
-                                        required
-                                        label={tGeneral("state")}
-                                        {...register('state')}
-                                    />
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={12}>
-                            <AutoComplete
-                                options={clients}
+                                options={suppliers}
                                 getOptionLabel={(option) => `${option?.firstName} ${option?.lastName}` || ''}
                                 isOptionEqualToValue={(option, value) => option.id === value.id}
                                 fullWidth
-                                value={selectedClient}
-                                onChange={(e, newValue) => handleChangeClient(newValue)}
+                                value={selectedSupplier}
+                                onChange={(e, newValue) => handleChangeSupplier(newValue)}
                                 renderInput={(params) =>
                                     <TextField
-                                        id="client"
-                                        name="client"
+                                        id="supplier"
+                                        name="supplier"
                                         {...params}
-                                        label={tGeneral("client")}
+                                        label={tGeneral("supplier")}
                                     />
                                 }
                             />
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} md={6}>
                             <DateTimePicker
                                 value={purchaseDate}
                                 onChange={(value) => {
@@ -252,59 +199,20 @@ function AddEditPurchaseDialog(props) {
                                 ampm={false}
                                 renderInput={(params) =>
                                     <TextField
-                                        id="purchaseDate"
-                                        name="purchaseDate"
+                                        id="date"
+                                        name="date"
                                         {...params}
-                                        label={tPurchase("purchase_date")}
-                                        {...register('purchaseDate')}
+                                        label={tGeneral("date")}
+                                        {...register('date')}
                                         required
                                     />
                                 }
                             />
                         </Grid>
-                        <Grid item xs={12} md={4}>
-                            <DateTimePicker
-                                value={deliveryDate}
-                                onChange={setDeliveryDate}
-                                ampm={false}
-                                renderInput={(params) =>
-                                    <TextField
-                                        id="deliveryDate"
-                                        name="deliveryDate"
-                                        {...params}
-                                        label={tPurchase("delivery_date")}
-                                        {...register('deliveryDate')}
-                                    />
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                            <DateTimePicker
-                                value={receptionDate}
-                                onChange={setReceptionDate}
-                                ampm={false}
-                                renderInput={(params) =>
-                                    <TextField
-                                        id="receptionDate"
-                                        name="receptionDate"
-                                        {...params}
-                                        label={tPurchase("reception_date")}
-                                        {...register('receptionDate')}
-                                    />
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                            <div className="flex justify-center">
-                                <Button variant="contained" onClick={handleOpenProductsGallery} color="secondary">
-                                    {tPurchase('select_products')}
-                                </Button>
-                            </div>
-                        </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} md={6}>
                             <TextField
                                 id="totalAmount"
-                                label={tPurchase("total_amount")}
+                                label={tGeneral("total_amount")}
                                 variant="outlined"
                                 name="totalAmount"
                                 required
@@ -313,6 +221,7 @@ function AddEditPurchaseDialog(props) {
                                 value={totalAmount}
                                 {...register('totalAmount', { valueAsNumber: true })}
                                 InputProps={{
+                                    endAdornment: <InputAdornment position="end">MAD</InputAdornment>,
                                     readOnly: true,
                                     inputProps: { min: 0 }
                                 }}
@@ -320,38 +229,27 @@ function AddEditPurchaseDialog(props) {
                             //style={{ marginTop: 23 }}
                             />
                         </Grid>
-                        <Grid item xs={12} md={4}>
-                            <TextField
-                                id="reduction"
-                                label={tPurchase("reduction")}
-                                variant="outlined"
-                                name="reduction"
-                                fullWidth
-                                defaultValue={selectedPurchase ? selectedPurchase.reduction : 0}
-                                {...register('reduction', { valueAsNumber: true })}
-                                type="number"
-                                onChange={handleChangeReduction}
-                                InputProps={{
-                                    inputProps: { min: 0 },
-                                    endAdornment: <InputAdornment position="end">%</InputAdornment>
-                                }}
-                            //style={{ marginTop: 23 }}
-                            />
+                        <Grid item xs={12}>
+                            <div className="flex justify-center">
+                                <Button variant="contained" onClick={handleOpenFeedstockList} color="secondary">
+                                    {tFeedstock('select_feedstock_items')}
+                                </Button>
+                            </div>
                         </Grid>
                     </Grid>
                 </form>
-                <ProductsGallery
-                    handleClose={handleCloseProductsGallery}
-                    open={openProductsGallery}
-                    handleSave={handleSaveSelectingProducts}
-                    selectedElements={productsList}
+                <FeedstockList
+                    handleClose={handleCloseFeedstockList}
+                    open={openFeedstockList}
+                    handleSave={handleSaveSelectingFeedstockItems}
+                    selectedElements={feedstockItems}
                 />
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>
                     {tGeneral('close')}
                 </Button>
-                <Button onClick={handleSave} color="secondary" type="submit" form="add-purchase-form">
+                <Button color="secondary" type="submit" form="add-purchase-form">
                     {tGeneral('save')}
                 </Button>
             </DialogActions>

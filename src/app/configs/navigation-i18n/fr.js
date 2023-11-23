@@ -13,6 +13,7 @@ const locale = {
   SUPPLIERS_SUB: 'Gestionnaire des fournisseurs',
   SUPPLIERS: 'Fournisseurs',
   PURCHASES: 'Achats',
+  FEEDSTOCK: 'Matière première',
   CATEGORIES: 'Catégories',
 };
 

@@ -67,7 +67,7 @@ function OrderMainPage(props) {
                 name: 'state',
             },
             {
-                label: tOrder('total_amount'),
+                label: `${tOrder('total_amount')} (MAD)`,
                 name: 'totalAmount',
             },
             {

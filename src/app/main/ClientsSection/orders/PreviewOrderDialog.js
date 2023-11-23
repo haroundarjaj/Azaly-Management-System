@@ -112,14 +112,14 @@ function PreviewOrderDialog(props) {
                         <Grid item xs={12} md={6}>
                             <div className='flex flex-row'>
                                 <Typography variant="subtitle1" color="secondary">{`${tOrder("total_amount")} :`}</Typography>
-                                <Typography variant="subtitle1" className='ml-10'>{selectedOrder?.totalAmount}</Typography>
+                                <Typography variant="subtitle1" className='ml-10'>{`${selectedOrder?.totalAmount} MAD`}</Typography>
                             </div>
 
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <div className='flex flex-row'>
                                 <Typography variant="subtitle1" color="secondary">{`${tOrder("reduction")} :`}</Typography>
-                                <Typography variant="subtitle1" className='ml-10'>{selectedOrder?.reduction}</Typography>
+                                <Typography variant="subtitle1" className='ml-10'>{`${selectedOrder?.reduction} %`}</Typography>
                             </div>
                         </Grid>
                         <Grid item xs={12}>

@@ -5,7 +5,7 @@ const path = require('path');
 const { spawn, exec } = require("child_process");
 const log = require('electron-log');
 //const serverPath = path.join(__dirname, 'node_modules/azaly-server/index.js');
-const serverPath = path.join(process.resourcesPath, '/app.asar.unpacked/Sacp-project.jar');
+const serverPath = path.join(process.resourcesPath, '/app.asar.unpacked/azaly-management-server.jar');
 
 
 let mainWindow;

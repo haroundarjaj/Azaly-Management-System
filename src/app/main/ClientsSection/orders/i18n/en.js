@@ -14,7 +14,6 @@ const locale = {
   total_amount: 'Total amount',
   reduction: 'Reduction (%)',
   products: 'Products',
-  ref_already_exist: 'Order reference number already exist',
   update_state: 'Update state',
   registered_description: 'The order is registred in the system',
   confirmed_description: 'The order have been confirmed and ready to be delivered',
