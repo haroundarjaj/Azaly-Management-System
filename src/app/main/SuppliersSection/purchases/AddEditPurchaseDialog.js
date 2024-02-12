@@ -50,11 +50,12 @@ function AddEditPurchaseDialog(props) {
     };
 
     const handleSave = (data) => {
+        console.log(selectedSupplier)
         const purchase = {
             ...data,
             purchasedFeedstock: feedstockItems,
             date: moment(purchaseDate).format('DD/MM/YYYY HH:mm:ss'),
-            supplierId: selectedSupplier.id,
+            supplierId: selectedSupplier?.id,
             totalAmount: totalAmount
         }
         console.log("testadd", purchase);

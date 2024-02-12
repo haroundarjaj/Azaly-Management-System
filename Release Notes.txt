@@ -1,3 +1,17 @@
+************** 03/01/2024 **************
+version released: v1.2.1
+what's new:
+- Include translations in dashboard top widgets and chart
+	
+************** 02/01/2024 **************
+version released: v1.2.0
+what's new:
+- Fix issues in adding multiple orders and purchases.
+- Add following items to the dashboard:
+	- Dynamic indicators for differents types of data at the top of the dashboard.
+	- Chart for the financial presentation (gains vs costs) in function of time (week, month or year).
+
+
 ************** 23/11/2023 **************
 version released: v1.1.0
 what's new:

@@ -6,6 +6,7 @@ import SignInConfig from '../main/sign-in/SignInConfig';
 import SignUpConfig from '../main/sign-up/SignUpConfig';
 import SignOutConfig from '../main/sign-out/SignOutConfig';
 import Error404Page from '../main/404/Error404Page';
+import AccessDeniedPage from '../main/403/AccessDeniedPage';
 import ExampleConfig from '../main/example/ExampleConfig';
 import DashboardConfig from '../main/dashboard/DashboardConfig';
 import ClientsConfig from '../main/ClientsSection/clients/ClientsConfig';
@@ -15,6 +16,8 @@ import SuppliersConfig from '../main/SuppliersSection/suppliers/SuppliersConfig'
 import PurchasesConfig from '../main/SuppliersSection/purchases/PurchasesConfig';
 import FeedstockConfig from '../main/SuppliersSection/feedstock/FeedstockConfig';
 import CategoriesConfig from '../main/ProductsSection/categories/CategoriesConfig';
+import UsersConfig from '../main/Administration/user/UsersConfig';
+import RolesConfig from '../main/Administration/role/RolesConfig';
 
 const routeConfigs = [
   ExampleConfig,
@@ -28,7 +31,9 @@ const routeConfigs = [
   CategoriesConfig,
   SignOutConfig,
   SignInConfig,
-  SignUpConfig
+  SignUpConfig,
+  UsersConfig,
+  RolesConfig
 ];
 
 const routes = [
@@ -41,6 +46,10 @@ const routes = [
   {
     path: 'loading',
     element: <FuseLoading />,
+  },
+  {
+    path: '403',
+    element: <AccessDeniedPage />,
   },
   {
     path: '404',

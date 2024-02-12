@@ -1,0 +1,26 @@
+const locale = {
+  TITLE: "الأدوار",
+  DESC: "يحتوي الجدول أدناه على قائمة بجميع الأدوار.",
+  table_title: "قائمة الأدوار",
+  add_title: "إضافة دور جديد",
+  add_desc: 'املأ النموذج ثم انقر فوق حفظ لإنشاء دور جديد.',
+  edit_title: "تحرير الدور",
+  edit_desc: "املأ النموذج ثم انقر فوق حفظ لتحديث الدور.",
+  name_already_exist: "اسم الدور موجود بالفعل",
+  permissions: 'الأذونات',
+  ACCESS: 'الولوج',
+  ADD: 'إضافة',
+  EDIT: 'تحرير',
+  DELETE: 'حذف',
+  CLIENT: 'العملاء',
+  ORDER: 'الطلبيات',
+  SUPPLIER: 'الموردون',
+  PURCHASE: 'عمليات الشراء',
+  FEEDSTOCK: 'المواد الخام',
+  PRODUCT: 'المنتجات',
+  PRODUCT_CATEGORY: 'فئات المنتجات',
+  USER: 'المستخدمون',
+  ROLE: 'الادوار',
+  role_related_error: 'لا يمكن حذف الدور لأنه مرتبط ببعض المستخدمين في النظام.'
+}
+export default locale;

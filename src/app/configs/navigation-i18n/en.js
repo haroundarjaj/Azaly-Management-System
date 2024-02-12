@@ -15,6 +15,10 @@ const locale = {
   PURCHASES: 'Purchases',
   FEEDSTOCK: 'Feedstock',
   CATEGORIES: 'Categories',
+  ADMINISTRATION: 'Administration',
+  ADMINISTRATION_SUB: 'System Administration',
+  USERS: 'Users',
+  ROLES: 'Roles'
 };
 
 export default locale;

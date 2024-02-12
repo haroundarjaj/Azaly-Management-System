@@ -1,4 +1,4 @@
-import { amber, blue, green } from '@mui/material/colors';
+import { amber, blue, green, red } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Snackbar from '@mui/material/Snackbar';
@@ -12,8 +12,10 @@ import {
   selectFuseMessageState,
 } from 'app/store/fuse/messageSlice';
 import FuseSvgIcon from '../FuseSvgIcon';
+import { createPortal } from 'react-dom';
 
 const StyledSnackbar = styled(Snackbar)(({ theme, variant }) => ({
+  zIndex: 99999,
   '& .FuseMessage-content': {
     ...(variant === 'success' && {
       backgroundColor: green[600],
@@ -21,8 +23,8 @@ const StyledSnackbar = styled(Snackbar)(({ theme, variant }) => ({
     }),
 
     ...(variant === 'error' && {
-      backgroundColor: theme.palette.error.dark,
-      color: theme.palette.getContrastText(theme.palette.error.dark),
+      backgroundColor: red[600],
+      color: '#FFFFFF',
     }),
 
     ...(variant === 'info' && {
@@ -49,9 +51,11 @@ function FuseMessage(props) {
   const state = useSelector(selectFuseMessageState);
   const options = useSelector(selectFuseMessageOptions);
 
+  console.log('teeeest', options)
   return (
     <StyledSnackbar
       {...options}
+      autoHideDuration={3000}
       open={state}
       onClose={() => dispatch(hideMessage())}
       ContentProps={{

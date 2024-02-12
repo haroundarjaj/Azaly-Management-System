@@ -1,5 +1,6 @@
 const locale = {
   no_records: "Sorry, no matching records found",
+  loading_data: "Loading data...",
   sort: "Sort",
   sort_for: "Sort for",
   next_page: "Next page",

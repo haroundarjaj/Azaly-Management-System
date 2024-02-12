@@ -15,6 +15,10 @@ const locale = {
   PURCHASES: 'المشتريات',
   FEEDSTOCK: 'المواد الاولية',
   CATEGORIES: 'الفئات',
+  ADMINISTRATION: 'الإدارة',
+  ADMINISTRATION_SUB: 'إدارة النظام',
+  USERS: 'المستخدمون',
+  ROLES: 'الأدوار'
 };
 
 export default locale;

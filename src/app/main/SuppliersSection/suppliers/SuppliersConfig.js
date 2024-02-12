@@ -14,6 +14,7 @@ const SuppliersConfig = {
     layout: {
       config: {},
     },
+    permissionName: 'SUPPLIER',
   },
   routes: [
     {

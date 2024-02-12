@@ -14,6 +14,7 @@ const ProductsConfig = {
     layout: {
       config: {},
     },
+    permissionName: 'PRODUCT',
   },
   routes: [
     {

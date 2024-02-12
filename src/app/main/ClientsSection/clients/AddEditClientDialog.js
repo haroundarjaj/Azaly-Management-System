@@ -6,6 +6,8 @@ import ProfilePicture from "profile-picture";
 import "profile-picture/build/ProfilePicture.css";
 import ClientService from "src/app/services/ClientService";
 import { useForm } from "react-hook-form";
+import { catchServerError } from "src/app/utils/NotificationTools";
+import { useDispatch } from "react-redux";
 
 const profilePictureRef = React.createRef();
 
@@ -20,6 +22,8 @@ function AddEditClientDialog(props) {
         open,
         selectedClient
     } = props;
+
+    const dispatch = useDispatch();
 
     const { register, handleSubmit, reset } = useForm({ mode: 'onTouched' });
 
@@ -52,11 +56,11 @@ function AddEditClientDialog(props) {
             client.id = selectedClient.id;
             ClientService.update(client).then(({ data }) => {
                 handleUpdateDone(data);
-            })
+            }).catch((err) => catchServerError(dispatch, tGeneral, err))
         } else {
             ClientService.add(client).then(({ data }) => {
                 handleAddDone(data);
-            })
+            }).catch((err) => catchServerError(dispatch, tGeneral, err))
         }
     }
 

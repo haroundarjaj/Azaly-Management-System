@@ -1,7 +1,14 @@
-export default function getTableLabels(t) {
+import { LinearProgress, Typography } from "@mui/material";
+
+export default function getTableLabels(t, laoding) {
     return {
         body: {
-            noMatch: t('no_records'),
+            noMatch: laoding ?
+                <div className="my-40">
+                    <Typography fontWeight={600} color="secondary" variant="subtitle1">{t('loading_data')}</Typography>
+                    <LinearProgress color="secondary" />
+                </div>
+                : t('no_records'),
             toolTip: t('sort'),
             columnHeaderTooltip: column => `${t('sort_for')} ${column.label}`
         },

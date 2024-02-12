@@ -1,7 +1,7 @@
 import GeneralTable from "app/theme-layouts/shared-components/GeneralTable/GeneralTable";
 import { useTranslation } from 'react-i18next';
 import AddEditClientDialog from "./AddEditClientDialog";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import ClientService from "src/app/services/ClientService";
 import { Avatar, Paper } from "@mui/material";
 import { showMessage } from 'app/store/fuse/messageSlice';
@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import PaperBlock from "app/theme-layouts/shared-components/PaperBlock/PaperBlock";
 import InformationDialog from "app/theme-layouts/shared-components/InformationDialog.js/InformationDialog";
 import PreviewClientDialog from "./PreviewClientDialog";
+import { AbilityContext } from "src/app/auth/Can";
+import { catchServerError, showNotification } from "src/app/utils/NotificationTools";
 
 let setSelectedRowsFunc = null;
 
@@ -19,10 +21,12 @@ function ClientMainPage(props) {
     const [isOpenAddEditClientDialog, setIsOpenAddEditClientDialog] = useState(false);
     const [isOpenPreviewClientDialog, setIsOpenPreviewClientDialog] = useState(false);
     const [isOpenConfirmationDialog, setIsOpenConfirmationDialog] = useState(false);
+    const [isLoadingData, setIsLoadingData] = useState(true);
     const [allClients, setAllClients] = useState([]);
     const [selectedClient, setSelectedClient] = useState(null);
 
     const dispatch = useDispatch();
+    const ability = useContext(AbilityContext);
 
 
     const renderColumns = () => {
@@ -116,7 +120,7 @@ function ClientMainPage(props) {
         list.push(addedClient);
         setAllClients(list);
         setIsOpenAddEditClientDialog(false);
-        dispatch(showMessage({ message: 'Created Successfully', variant: 'success' }));
+        showNotification(dispatch, tGeneral('created_successfully'), 'success');
     }
 
     const handleUpdateDone = (client) => {
@@ -125,7 +129,7 @@ function ClientMainPage(props) {
         list.splice(removeIndex, 1, client);
         setAllClients(list);
         setIsOpenAddEditClientDialog(false);
-        dispatch(showMessage({ message: 'Updated Successfully', variant: 'success' }));
+        showNotification(dispatch, tGeneral('updated_successfully'), 'success');
     }
 
     const handleOpenDeleteConfirmation = (client, setSelectedRows) => {
@@ -148,14 +152,15 @@ function ClientMainPage(props) {
                 setAllClients(list);
                 setSelectedRowsFunc([])
                 handleCloseDeleteConfirmation()
-                dispatch(showMessage({ message: 'Deleted Successfully', variant: 'success' }));
+                showNotification(dispatch, tGeneral('deleted_successfully'), 'success');
             }
-        });
+        }).catch(err => catchServerError(dispatch, tGeneral, err));
     }
 
     useEffect(() => {
         ClientService.getAll().then(({ data }) => {
             setAllClients(data);
+            setIsLoadingData(false);
         })
     }, [])
 
@@ -186,6 +191,10 @@ function ClientMainPage(props) {
                         data={allClients}
                         columns={renderColumns()}
                         title={tClient('TITLE')}
+                        loading={isLoadingData}
+                        addButtonVisibility={ability.can("ADD", "CLIENT")}
+                        editButtonVisibility={ability.can("EDIT", "CLIENT")}
+                        deleteButtonVisibility={ability.can("DELETE", "CLIENT")}
                         handleAddClick={handleOpenAddEditClientDialog}
                         handleEditClick={handleOpenEdit}
                         handleDeleteClick={handleOpenDeleteConfirmation}

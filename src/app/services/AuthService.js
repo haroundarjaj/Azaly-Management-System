@@ -10,5 +10,7 @@ const AuthUrl = `${REACT_APP_API_URL}/api/auth`
 
 class AuthService {
     login = (credentials) => axios.post(`${AuthUrl}/signin`, credentials, { headers });
+
+    signup = (data) => axios.post(`${AuthUrl}/signup`, data, { headers });
 }
 export default new AuthService();

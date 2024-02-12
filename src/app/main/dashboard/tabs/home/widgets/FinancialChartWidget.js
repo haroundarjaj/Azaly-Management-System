@@ -7,14 +7,26 @@ import { memo, useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
-import { widgets } from '../../../dumbData'
+import { widgets } from '../../../dumbData';
+import OrderService from 'src/app/services/OrderService';
+import ChartData from './ChartWidgetData';
+import PurchaseService from 'src/app/services/PurchaseService';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
-function GithubIssuesWidget() {
+function FinancialChartWidget() {
   const theme = useTheme();
-  const [awaitRender, setAwaitRender] = useState(true);
+  const tDashboard = useTranslation('dashboard').t;
+  const tGeneral = useTranslation('generalTranslations').t;
+
+  const [awaitRender, setAwaitRender] = useState(false);
   const [tabValue, setTabValue] = useState(0);
-  const { overview, series, ranges, labels } = widgets?.githubIssues;
+  const [gainsData, setGainsData] = useState([]);
+  const [costsData, setCostsData] = useState([]);
+  const { series, ranges, labels } = ChartData(tGeneral, tDashboard);
   const currentRange = Object.keys(ranges)[tabValue];
+
+
 
   const chartOptions = {
     chart: {
@@ -22,6 +34,9 @@ function GithubIssuesWidget() {
       foreColor: 'inherit',
       height: '100%',
       type: 'line',
+      style: {
+        direction: 'rtl'
+      },
       toolbar: {
         show: false,
       },
@@ -29,11 +44,11 @@ function GithubIssuesWidget() {
         enabled: false,
       },
     },
-    colors: [theme.palette.primary.main, theme.palette.secondary.main],
-    labels,
+    colors: [theme.palette.secondary.main, theme.palette.primary.main],
+    labels: i18next.dir() === 'rtl' ? [...labels[currentRange]].reverse() : labels[currentRange],
     dataLabels: {
       enabled: true,
-      enabledOnSeries: [0],
+      enabledOnSeries: [0, 1],
       background: {
         borderWidth: 0,
       },
@@ -58,13 +73,14 @@ function GithubIssuesWidget() {
       },
     },
     stroke: {
-      width: [3, 0],
+      width: [3, 2],
     },
     tooltip: {
       followCursor: true,
       theme: theme.palette.mode,
     },
     xaxis: {
+      opposite: i18next.dir() === 'rtl',
       axisBorder: {
         show: false,
       },
@@ -81,6 +97,7 @@ function GithubIssuesWidget() {
       },
     },
     yaxis: {
+      opposite: i18next.dir() === 'rtl',
       labels: {
         offsetX: -16,
         style: {
@@ -90,9 +107,50 @@ function GithubIssuesWidget() {
     },
   };
 
+  const generateSeries = () => {
+    const seriesList = series[currentRange];
+    seriesList[0] = { ...seriesList[0], data: gainsData };
+    seriesList[1] = { ...seriesList[1], data: costsData };
+
+    return i18next.dir() === 'rtl' ? seriesList.map(s => ({ ...s, data: [...s['data']].reverse() })) : seriesList
+  }
+
+  let fetchGains = null;
+  let fetchCosts = null;
+
+  const fetchData = () => {
+    console.log(currentRange)
+    switch (currentRange) {
+      case 'this-week':
+        fetchGains = OrderService.getThisWeekGainsStatistics();
+        fetchCosts = PurchaseService.getThisWeekCostsStatistics();
+        break;
+      case 'this-month':
+        fetchGains = OrderService.getThisMonthGainsStatistics();
+        fetchCosts = PurchaseService.getThisMonthCostsStatistics();
+        break;
+      case 'this-year':
+        fetchGains = OrderService.getThisYearGainsStatistics();
+        fetchCosts = PurchaseService.getThisYearCostsStatistics();
+        break;
+    }
+
+    Promise.all([fetchGains, fetchCosts]).then((responses) => {
+      console.log(responses)
+      setGainsData(responses[0].data);
+      setCostsData(responses[1]?.data);
+      setAwaitRender(false);
+    });
+  }
+
   useEffect(() => {
-    setAwaitRender(false);
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    fetchData()
+  }, [tabValue]);
+
 
   if (awaitRender) {
     return null;
@@ -102,7 +160,7 @@ function GithubIssuesWidget() {
     <Paper className="flex flex-col flex-auto p-24 shadow rounded-2xl overflow-hidden">
       <div className="flex flex-col sm:flex-row items-start justify-between">
         <Typography className="text-lg font-medium tracking-tight leading-6 truncate">
-          Github Issues Summary
+          {tDashboard('financial_statistics')}
         </Typography>
         <div className="mt-12 sm:mt-0 sm:ml-8">
           <Tabs
@@ -134,21 +192,21 @@ function GithubIssuesWidget() {
           </Tabs>
         </div>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-24 w-full mt-32 sm:mt-16">
+      <div >
         <div className="flex flex-col flex-auto">
           <Typography className="font-medium" color="text.secondary">
-            New vs. Closed
+            {`${tDashboard('gains')} ${tDashboard('vs')}. ${tDashboard('costs')} (${tGeneral('dh')})`}
           </Typography>
           <div className="flex flex-col flex-auto">
             <ReactApexChart
               className="flex-auto w-full"
               options={chartOptions}
-              series={series[currentRange]}
+              series={generateSeries()}
               height={320}
             />
           </div>
         </div>
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <Typography className="font-medium" color="text.secondary">
             Overview
           </Typography>
@@ -222,10 +280,10 @@ function GithubIssuesWidget() {
               <Typography className="mt-4 text-sm font-medium text-center">Needs Triage</Typography>
             </Box>
           </div>
-        </div>
+        </div>*/}
       </div>
     </Paper>
   );
 }
 
-export default memo(GithubIssuesWidget);
+export default memo(FinancialChartWidget);

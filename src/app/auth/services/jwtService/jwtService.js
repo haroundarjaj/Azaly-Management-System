@@ -3,6 +3,8 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import AuthService from 'src/app/services/AuthService';
 import jwtServiceConfig from './jwtServiceConfig';
+import UserService from 'src/app/services/UserService';
+import history from '@history';
 
 /* eslint-disable camelcase */
 
@@ -26,6 +28,7 @@ class JwtService extends FuseUtils.EventEmitter {
             // if you ever get an unauthorized response, logout the user
             this.emit('onAutoLogout', 'Expired Session');
             this.setSession(null);
+            history.push('/sign-in')
           }
           throw err;
         });
@@ -53,14 +56,19 @@ class JwtService extends FuseUtils.EventEmitter {
 
   createUser = (data) => {
     return new Promise((resolve, reject) => {
-      axios.post(jwtServiceConfig.signUp, data).then((response) => {
-        if (response.data.user) {
-          this.setSession(response.data.access_token);
-          resolve(response.data.user);
-          this.emit('onLogin', response.data.user);
-        } else {
-          reject(response.data.error);
+      AuthService.signup(data).then((response) => {
+        console.log(response)
+        console.log(response.status)
+        if (response.status === 200) {
+          history.push('/sign-in')
         }
+        // if (response.data.user) {
+        //   this.setSession(response.data.access_token);
+        //   resolve(response.data.user);
+        //   this.emit('onLogin', response.data.user);
+        // } else {
+        //   reject(response.data.error);
+        // }
       });
     });
   };

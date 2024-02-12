@@ -49,11 +49,11 @@ const navigationSlice = createSlice({
 
 export const { setNavigation, resetNavigation } = navigationSlice.actions;
 
-const getUserRole = () => JSON.parse(localStorage.getItem('user'))?.role;
+const getUserRoles = () => JSON.parse(localStorage.getItem('user'))?.roles;
 
 export const selectNavigation = createSelector(
-  [selectNavigationAll, ({ i18n }) => i18n.language, getUserRole],
-  (navigation, language, userRole) => {
+  [selectNavigationAll, ({ i18n }) => i18n.language, getUserRoles],
+  (navigation, language, userRoles) => {
     function setTranslationValues(data) {
       // loop through every object in the array
       return data.map((item) => {
@@ -61,9 +61,9 @@ export const selectNavigation = createSelector(
           item.title = i18next.t(`navigation:${item.titleTranslate}`);
         }
 
-        // if (item.subtitleTranslate && item.subtitle) {
-        //   item.subtitle = i18next.t(`navigation:${item.subtitleTranslate}`);
-        // }
+        if (item.subtitleTranslate && item.subtitle) {
+          item.subtitle = i18next.t(`navigation:${item.subtitleTranslate}`);
+        }
 
         // see if there is a children node
         if (item.children) {
@@ -77,7 +77,7 @@ export const selectNavigation = createSelector(
     return setTranslationValues(
       _.merge(
         [],
-        filterRecursively(navigation, (item) => FuseUtils.hasPermission(item.auth, userRole))
+        filterRecursively(navigation, (item) => FuseUtils.hasPermission(item.auth, userRoles))
       )
     );
   }

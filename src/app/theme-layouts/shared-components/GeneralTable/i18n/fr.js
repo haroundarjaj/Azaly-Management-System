@@ -1,5 +1,6 @@
 const locale = {
     no_records: "Désolé, aucun enregistrement correspondant n'a été trouvé",
+    loading_data: "Chargement des données...",
     sort: "Trier",
     sort_for: "Trier pour",
     next_page: "Trier pour",

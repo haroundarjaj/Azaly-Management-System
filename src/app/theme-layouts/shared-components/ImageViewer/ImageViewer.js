@@ -16,6 +16,7 @@ function ImageViewer(props) {
             }}
             fullWidth
             maxWidth="xl"
+            style={{ zIndex: 20000 }}
         >
             <div className="flex justify-center items-center">
                 <img src={image} alt="logo" style={{ maxWidth: "100%", maxHeight: "90vh" }} />

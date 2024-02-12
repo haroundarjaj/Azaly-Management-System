@@ -14,6 +14,7 @@ const PurchasesConfig = {
     layout: {
       config: {},
     },
+    permissionName: 'PURCHASE',
   },
   routes: [
     {

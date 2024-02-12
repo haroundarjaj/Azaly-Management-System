@@ -19,5 +19,19 @@ class OrderService {
 
     delete = (id) => axios.delete(`${orderAPI}/delete/${id}`, { headers });
 
+    countAll = () => axios.get(`${orderAPI}/count-all`, { headers });
+
+    countDelivered = () => axios.get(`${orderAPI}/count-delivered`, { headers });
+
+    getThisMonthGains = () => axios.get(`${orderAPI}/this-month-gains`, { headers });
+
+    getThisWeekGains = () => axios.get(`${orderAPI}/this-week-gains`, { headers });
+
+    getThisWeekGainsStatistics = () => axios.get(`${orderAPI}/this-week-gains-statistics`, { headers });
+
+    getThisMonthGainsStatistics = () => axios.get(`${orderAPI}/this-month-gains-statistics`, { headers });
+
+    getThisYearGainsStatistics = () => axios.get(`${orderAPI}/this-year-gains-statistics`, { headers });
+
 }
 export default new OrderService();

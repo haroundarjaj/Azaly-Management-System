@@ -1,7 +1,7 @@
 import GeneralTable from "app/theme-layouts/shared-components/GeneralTable/GeneralTable";
 import { useTranslation } from 'react-i18next';
 import AddEditPurchaseDialog from "./AddEditPurchaseDialog";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PurchaseService from "src/app/services/PurchaseService";
 import { IconButton, Paper, Typography } from "@mui/material";
 import { showMessage } from 'app/store/fuse/messageSlice';
@@ -11,7 +11,7 @@ import InformationDialog from "app/theme-layouts/shared-components/InformationDi
 import PreviewPurchaseDialog from "./PreviewPurchaseDialog";
 import FuseSvgIcon from "@fuse/core/FuseSvgIcon/FuseSvgIcon";
 import FeedstockList from "app/theme-layouts/shared-components/FeedstockList/FeedstockList";
-import { Box } from "@mui/system";
+import { AbilityContext } from "src/app/auth/Can";
 
 let setSelectedRowsFunc = null;
 
@@ -28,6 +28,7 @@ function PurchaseMainPage(props) {
     const [viewProductsList, setViewProductsList] = useState(null);
 
     const dispatch = useDispatch();
+    const ability = useContext(AbilityContext);
 
 
     const renderColumns = () => {
@@ -186,6 +187,9 @@ function PurchaseMainPage(props) {
                         data={allPurchases}
                         columns={renderColumns()}
                         title={tPurchase('TITLE')}
+                        addButtonVisibility={ability.can("ADD", "PURCHASE")}
+                        editButtonVisibility={ability.can("EDIT", "PURCHASE")}
+                        deleteButtonVisibility={ability.can("DELETE", "PURCHASE")}
                         handleAddClick={handleOpenAddEditPurchaseDialog}
                         handleEditClick={handleOpenEdit}
                         handleDeleteClick={handleOpenDeleteConfirmation}

@@ -1,7 +1,7 @@
 import GeneralTable from "app/theme-layouts/shared-components/GeneralTable/GeneralTable";
 import { useTranslation } from 'react-i18next';
 import AddEditCategoryDialog from "./AddEditCategoryDialog";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CategoryService from "src/app/services/ProductCategoryService";
 import { Avatar, Paper } from "@mui/material";
 import { showMessage } from 'app/store/fuse/messageSlice';
@@ -10,6 +10,7 @@ import PaperBlock from "app/theme-layouts/shared-components/PaperBlock/PaperBloc
 import InformationDialog from "app/theme-layouts/shared-components/InformationDialog.js/InformationDialog";
 import PreviewCategoryDialog from "./PreviewCategoryDialog";
 import ImageViewer from "app/theme-layouts/shared-components/ImageViewer/ImageViewer";
+import { AbilityContext } from "src/app/auth/Can";
 
 let setSelectedRowsFunc = null;
 
@@ -26,6 +27,7 @@ function CategoryMainPage(props) {
     const [isViewerOpen, setIsViewerOpen] = useState(false);
 
     const dispatch = useDispatch();
+    const ability = useContext(AbilityContext);
 
 
     const renderColumns = () => {
@@ -179,6 +181,9 @@ function CategoryMainPage(props) {
                         data={allCategories}
                         columns={renderColumns()}
                         title={tCategory('TITLE')}
+                        addButtonVisibility={ability.can("ADD", "PRODUCT_CATEGORY")}
+                        editButtonVisibility={ability.can("EDIT", "PRODUCT_CATEGORY")}
+                        deleteButtonVisibility={ability.can("DELETE", "PRODUCT_CATEGORY")}
                         handleAddClick={handleOpenAddEditCategoryDialog}
                         handleEditClick={handleOpenEdit}
                         handleDeleteClick={handleOpenDeleteConfirmation}

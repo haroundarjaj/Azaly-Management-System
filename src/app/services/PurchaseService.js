@@ -19,5 +19,15 @@ class PurchaseService {
 
     delete = (id) => axios.delete(`${purchaseAPI}/delete/${id}`, { headers });
 
+    getThisMonthCosts = () => axios.get(`${purchaseAPI}/this-month-costs`, { headers });
+
+    getThisWeekCosts = () => axios.get(`${purchaseAPI}/this-week-costs`, { headers });
+
+    getThisWeekCostsStatistics = () => axios.get(`${purchaseAPI}/this-week-costs-statistics`, { headers });
+
+    getThisMonthCostsStatistics = () => axios.get(`${purchaseAPI}/this-month-costs-statistics`, { headers });
+
+    getThisYearCostsStatistics = () => axios.get(`${purchaseAPI}/this-year-costs-statistics`, { headers });
+
 }
 export default new PurchaseService();

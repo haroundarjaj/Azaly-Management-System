@@ -14,6 +14,7 @@ const OrdersConfig = {
     layout: {
       config: {},
     },
+    permissionName: 'ORDER',
   },
   routes: [
     {

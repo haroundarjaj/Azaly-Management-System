@@ -4,6 +4,7 @@ const isDev = require('electron-is-dev');
 const path = require('path');
 const { spawn, exec } = require("child_process");
 const log = require('electron-log');
+const express = require('express');
 //const serverPath = path.join(__dirname, 'node_modules/azaly-server/index.js');
 const serverPath = path.join(process.resourcesPath, '/app.asar.unpacked/azaly-management-server.jar');
 
@@ -13,10 +14,6 @@ let childProcess;
 
 let startOfflineServer = () => {
     if (!isDev) {
-        console.log("serverPath")
-        console.log("first test started")
-        console.log(serverPath)
-
         //childProcess = exec(`java -jar "${serverPath}"`);
 
         childProcess = spawn(
@@ -65,9 +62,17 @@ async function createWindow() {
         }
     });
     const startURL = isDev ? 'http://localhost:3333' : `file://${path.join(__dirname, '../build/index.html')}`;
+    // mainWindow.loadURL('http://localhost:3333');
     mainWindow.loadURL(startURL);
+    // const expressApp = express();
+    // expressApp.use(express.static(path.join(__dirname)));
+    // const port = 3333;
+    // expressApp.listen(port, () => {
+    //     console.log(`Started listening on port ${port}.`);
+    // })
+
     mainWindow.setMenu(null)
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
     mainWindow.once('ready-to-show', () => mainWindow.show());
     mainWindow.on('closed', () => {
         mainWindow = null;

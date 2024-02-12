@@ -81,7 +81,7 @@ function PreviewPurchaseDialog(props) {
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <div className='flex flex-row'>
-                                <Typography variant="subtitle1" color="secondary">{`${tPurchase("total_amount")} :`}</Typography>
+                                <Typography variant="subtitle1" color="secondary">{`${tGeneral("total_amount")} :`}</Typography>
                                 <Typography variant="subtitle1" className='ml-10'>{`${selectedPurchase?.totalAmount} MAD`}</Typography>
                             </div>
 

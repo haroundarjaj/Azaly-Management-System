@@ -1,7 +1,7 @@
 import GeneralTable from "app/theme-layouts/shared-components/GeneralTable/GeneralTable";
 import { useTranslation } from 'react-i18next';
 import AddEditProductDialog from "./AddEditProductDialog";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProductService from "src/app/services/ProductService";
 import { Avatar, Paper } from "@mui/material";
 import { showMessage } from 'app/store/fuse/messageSlice';
@@ -10,6 +10,7 @@ import PaperBlock from "app/theme-layouts/shared-components/PaperBlock/PaperBloc
 import InformationDialog from "app/theme-layouts/shared-components/InformationDialog.js/InformationDialog";
 import PreviewProductDialog from "./PreviewProductDialog";
 import ImageViewer from "app/theme-layouts/shared-components/ImageViewer/ImageViewer";
+import { AbilityContext } from "src/app/auth/Can";
 
 let setSelectedRowsFunc = null;
 
@@ -28,6 +29,7 @@ function ProductMainPage(props) {
     const [isViewerOpen, setIsViewerOpen] = useState(false);
 
     const dispatch = useDispatch();
+    const ability = useContext(AbilityContext);
 
 
     const renderColumns = () => {
@@ -193,6 +195,9 @@ function ProductMainPage(props) {
                         data={allProducts}
                         columns={renderColumns()}
                         title={tProduct('TITLE')}
+                        addButtonVisibility={ability.can("ADD", "PRODUCT")}
+                        editButtonVisibility={ability.can("EDIT", "PRODUCT")}
+                        deleteButtonVisibility={ability.can("DELETE", "PRODUCT")}
                         handleAddClick={handleOpenAddEditProductDialog}
                         handleEditClick={handleOpenEdit}
                         handleDeleteClick={handleOpenDeleteConfirmation}

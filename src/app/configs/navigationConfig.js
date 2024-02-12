@@ -112,6 +112,34 @@ const navigationConfig = [
       },
     ]
   },
+
+  {
+    id: 'administration',
+    title: 'Administration',
+    titleTranslate: 'ADMINISTRATION',
+    subtitle: 'System Administration',
+    subtitleTranslate: 'ADMINISTRATION_SUB',
+    type: 'group',
+    icon: 'heroicons-outline:user-group',
+    children: [
+      {
+        id: 'users-component',
+        title: 'Users',
+        titleTranslate: 'USERS',
+        type: 'item',
+        icon: 'heroicons-outline:user',
+        url: 'users',
+      },
+      {
+        id: 'roles-component',
+        title: 'Roles',
+        titleTranslate: 'ROLES',
+        type: 'item',
+        icon: 'heroicons-outline:user',
+        url: 'roles',
+      }
+    ]
+  },
   {
     id: 'example-component',
     title: 'Example',

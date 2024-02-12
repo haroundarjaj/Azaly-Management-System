@@ -1,7 +1,7 @@
 import GeneralTable from "app/theme-layouts/shared-components/GeneralTable/GeneralTable";
 import { useTranslation } from 'react-i18next';
 import AddEditFeedstockDialog from "./AddEditFeedstockDialog";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import FeedstockService from "src/app/services/FeedstockService";
 import { Avatar, Paper } from "@mui/material";
 import { showMessage } from 'app/store/fuse/messageSlice';
@@ -10,6 +10,7 @@ import PaperBlock from "app/theme-layouts/shared-components/PaperBlock/PaperBloc
 import InformationDialog from "app/theme-layouts/shared-components/InformationDialog.js/InformationDialog";
 import PreviewFeedstockDialog from "./PreviewFeedstockDialog";
 import ImageViewer from "app/theme-layouts/shared-components/ImageViewer/ImageViewer";
+import { AbilityContext } from "src/app/auth/Can";
 
 let setSelectedRowsFunc = null;
 
@@ -28,6 +29,7 @@ function FeedstockMainPage(props) {
     const [isViewerOpen, setIsViewerOpen] = useState(false);
 
     const dispatch = useDispatch();
+    const ability = useContext(AbilityContext);
 
 
     const renderColumns = () => {
@@ -185,6 +187,9 @@ function FeedstockMainPage(props) {
                         data={allFeedstock}
                         columns={renderColumns()}
                         title={tFeedstock('TITLE')}
+                        addButtonVisibility={ability.can("ADD", "FEEDSTOCK")}
+                        editButtonVisibility={ability.can("EDIT", "FEEDSTOCK")}
+                        deleteButtonVisibility={ability.can("DELETE", "FEEDSTOCK")}
                         handleAddClick={handleOpenAddEditFeedstockDialog}
                         handleEditClick={handleOpenEdit}
                         handleDeleteClick={handleOpenDeleteConfirmation}

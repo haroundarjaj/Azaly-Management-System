@@ -1,7 +1,7 @@
 import GeneralTable from "app/theme-layouts/shared-components/GeneralTable/GeneralTable";
 import { useTranslation } from 'react-i18next';
 import AddEditOrderDialog from "./AddEditOrderDialog";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import OrderService from "src/app/services/OrderService";
 import { IconButton, Paper, Typography } from "@mui/material";
 import { showMessage } from 'app/store/fuse/messageSlice';
@@ -15,6 +15,7 @@ import GenerateOrderStates from "./GenerateOrderStates";
 import { Box } from "@mui/system";
 import OrderStateDialog from "./OrderStateDialog";
 import OrderTimeline from "./OrderTimeline";
+import { AbilityContext } from "src/app/auth/Can";
 
 let setSelectedRowsFunc = null;
 
@@ -34,6 +35,7 @@ function OrderMainPage(props) {
     const [index, setIndex] = useState(0);
 
     const dispatch = useDispatch();
+    const ability = useContext(AbilityContext);
 
 
     const renderColumns = () => {
@@ -288,6 +290,9 @@ function OrderMainPage(props) {
                         data={allOrders}
                         columns={renderColumns()}
                         title={tOrder('TITLE')}
+                        addButtonVisibility={ability.can("ADD", "ORDER")}
+                        editButtonVisibility={ability.can("EDIT", "ORDER")}
+                        deleteButtonVisibility={ability.can("DELETE", "ORDER")}
                         handleAddClick={handleOpenAddEditOrderDialog}
                         handleEditClick={handleOpenEdit}
                         handleDeleteClick={handleOpenDeleteConfirmation}

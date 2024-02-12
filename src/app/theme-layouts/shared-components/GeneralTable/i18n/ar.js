@@ -1,5 +1,6 @@
 const locale = {
   no_records: "عذرًا ، لم يتم العثور على سجلات مطابقة",
+  loading_data: "تحميل البيانات...",
   sort: "فرز",
   sort_for: "فرز حسب",
   next_page: "الصفحة التالية",

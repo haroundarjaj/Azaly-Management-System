@@ -1,7 +1,7 @@
 import GeneralTable from "app/theme-layouts/shared-components/GeneralTable/GeneralTable";
 import { useTranslation } from 'react-i18next';
 import AddEditSupplierDialog from "./AddEditSupplierDialog";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SupplierService from "src/app/services/SupplierService";
 import { Avatar, Paper } from "@mui/material";
 import { showMessage } from 'app/store/fuse/messageSlice';
@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import PaperBlock from "app/theme-layouts/shared-components/PaperBlock/PaperBlock";
 import InformationDialog from "app/theme-layouts/shared-components/InformationDialog.js/InformationDialog";
 import PreviewSupplierDialog from "./PreviewSupplierDialog";
+import { AbilityContext } from "src/app/auth/Can";
 
 let setSelectedRowsFunc = null;
 
@@ -23,6 +24,7 @@ function SupplierMainPage(props) {
     const [selectedSupplier, setSelectedSupplier] = useState(null);
 
     const dispatch = useDispatch();
+    const ability = useContext(AbilityContext);
 
 
     const renderColumns = () => {
@@ -186,6 +188,9 @@ function SupplierMainPage(props) {
                         data={allSuppliers}
                         columns={renderColumns()}
                         title={tSupplier('TITLE')}
+                        addButtonVisibility={ability.can("ADD", "SUPPLIER")}
+                        editButtonVisibility={ability.can("EDIT", "SUPPLIER")}
+                        deleteButtonVisibility={ability.can("DELETE", "SUPPLIER")}
                         handleAddClick={handleOpenAddEditSupplierDialog}
                         handleEditClick={handleOpenEdit}
                         handleDeleteClick={handleOpenDeleteConfirmation}

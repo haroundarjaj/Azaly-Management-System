@@ -6,6 +6,7 @@ import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { logoutUser, setUser } from 'app/store/userSlice';
 import jwtService from './services/jwtService';
+import UserService from '../services/UserService';
 
 const AuthContext = React.createContext();
 

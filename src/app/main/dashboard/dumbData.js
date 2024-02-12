@@ -1,25 +1,37 @@
 export const widgets = {
+    // summary: {
+    //     ranges: {
+    //         DW: "This week",
+    //         DM: "This month",
+    //         DY: "This year"
+    //     },
+    //     currentRange: "DW",
+    //     data: {
+    //         name: "Orders",
+    //         count: {
+    //             DW: 21,
+    //             DM: 25,
+    //             DY: 19
+    //         },
+    //         extra: {
+    //             name: "Delivered",
+    //             count: {
+    //                 DW: 6,
+    //                 DM: 7,
+    //                 DY: "-"
+    //             }
+    //         }
+    //     },
+    //     detail: "You can show some detailed information about this widget in here."
+    // },
     summary: {
-        ranges: {
-            DW: "This week",
-            DM: "This month",
-            DY: "This year"
-        },
-        currentRange: "DW",
+        title: "Summary",
         data: {
             name: "Orders",
-            count: {
-                DW: 21,
-                DM: 25,
-                DY: 19
-            },
+            count: 56,
             extra: {
                 name: "Delivered",
-                count: {
-                    DW: 6,
-                    DM: 7,
-                    DY: "-"
-                }
+                count: 48
             }
         },
         detail: "You can show some detailed information about this widget in here."

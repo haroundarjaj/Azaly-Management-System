@@ -10,6 +10,7 @@ const locale = {
     wholesale_price: "Prix de gros",
     product_type: "Type du produit",
     category: "Categorie",
+    categories: "Categories",
     products_gallery: "Galerie de produits",
     select_products: "Sélectionner des produits"
 };

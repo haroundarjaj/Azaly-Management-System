@@ -58,6 +58,7 @@ function GeneralTable(props) {
         title,
         data,
         columns,
+        loading,
         addButtonVisibility,
         handleAddClick,
         previewButtonVisibility,
@@ -66,7 +67,8 @@ function GeneralTable(props) {
         handleEditClick,
         deleteButtonVisibility,
         handleDeleteClick,
-        showToolBar
+        showToolBar,
+        selectableRows
     } = props;
 
     const { t } = useTranslation('generalTable');
@@ -74,7 +76,7 @@ function GeneralTable(props) {
     const options = {
         filter: true,
         fixedHeader: true,
-        selectableRows: 'single',
+        selectableRows: selectableRows,
         filterType: 'dropdown',
         responsive: 'simple',
         print: true,
@@ -95,7 +97,7 @@ function GeneralTable(props) {
         downloadOptions: {
             filename: title + '.csv'
         },
-        textLabels: getTableLabels(t),
+        textLabels: getTableLabels(t, loading),
         customToolbar: () => (
             <>
                 <Tooltip title={t("download_excel")} className={classes.toolbarBtn}>
@@ -184,6 +186,7 @@ GeneralTable.propTypes = {
     title: PropTypes.string,
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
     addButtonVisibility: PropTypes.bool.isRequired,
     handleAddClick: PropTypes.func.isRequired,
     previewButtonVisibility: PropTypes.bool.isRequired,
@@ -192,13 +195,15 @@ GeneralTable.propTypes = {
     handleEditClick: PropTypes.func.isRequired,
     deleteButtonVisibility: PropTypes.bool.isRequired,
     handleDeleteClick: PropTypes.func.isRequired,
-    showToolBar: PropTypes.bool.isRequired
+    showToolBar: PropTypes.bool.isRequired,
+    selectableRows: PropTypes.string.isRequired
 }
 
 GeneralTable.defaultProps = {
     title: '',
     data: [],
     columns: [],
+    loading: false,
     addButtonVisibility: true,
     handleAddClick: () => { },
     previewButtonVisibility: true,
@@ -207,7 +212,8 @@ GeneralTable.defaultProps = {
     handleEditClick: () => { },
     deleteButtonVisibility: true,
     handleDeleteClick: () => { },
-    showToolBar: true
+    showToolBar: true,
+    selectableRows: 'single'
 }
 
 

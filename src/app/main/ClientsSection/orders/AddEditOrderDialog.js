@@ -55,9 +55,12 @@ function AddEditOrderDialog(props) {
     };
 
     const handleSave = (data) => {
+        console.log(GenerateOrderStates(tOrder))
+        console.log(data.state)
+        console.log(GenerateOrderStates(tOrder).filter(elem => elem.name === data.state))
         const order = {
             ...data,
-            state: GenerateOrderStates(tOrder).filter(elem => elem.value === data.state)[0].value,
+            state: GenerateOrderStates(tOrder).filter(elem => elem.name === data.state)[0].value,
             orderProducts: productsList,
             registeredDate: registeredDate ? moment(registeredDate).format('DD/MM/YYYY HH:mm:ss') : "",
             confirmedDate: confirmedDate ? moment(confirmedDate).format('DD/MM/YYYY HH:mm:ss') : "",
@@ -124,8 +127,12 @@ function AddEditOrderDialog(props) {
     }
 
     useEffect(() => {
+        console.log(selectedOrder)
         if (open && selectedOrder) {
-            reset(selectedOrder)
+            reset({
+                ...selectedOrder,
+                state: GenerateOrderStates(tOrder).filter(elem => elem.value === selectedOrder.state)[0].name
+            })
             setRegisteredDate(moment(selectedOrder.registeredDate, 'DD/MM/YYYY hh:mm:ss'))
             setConfirmedDate(selectedOrder.confirmedDate ? moment(selectedOrder.confirmedDate, 'DD/MM/YYYY hh:mm:ss') : null)
             setShippedDate(selectedOrder.shippedDate ? moment(selectedOrder.shippedDate, 'DD/MM/YYYY hh:mm:ss') : null)
@@ -137,7 +144,7 @@ function AddEditOrderDialog(props) {
         } else {
             reset({
                 ref: '',
-                state: "registered",
+                state: "Registered",
                 registeredDate: '',
                 confirmedDate: '',
                 shippedDate: '',

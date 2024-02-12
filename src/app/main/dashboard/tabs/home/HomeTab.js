@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
-import SummaryWidget from './widgets/SummaryWidget';
-import OverdueWidget from './widgets/OverdueWidget';
-import IssuesWidget from './widgets/IssuesWidget';
-import FeaturesWidget from './widgets/FeaturesWidget';
-import GithubIssuesWidget from './widgets/GithubIssuesWidget';
+import OrdersWidget from './widgets/OrdersWidget';
+import ProductsWidget from './widgets/ProductsWidget';
+import GainsWidget from './widgets/GainsWidget';
+import CostsWidget from './widgets/CostsWidget';
+import FinancialChartWidget from './widgets/FinancialChartWidget';
 import TaskDistributionWidget from './widgets/TaskDistributionWidget';
 import ScheduleWidget from './widgets/ScheduleWidget';
 
@@ -29,19 +29,19 @@ function HomeTab() {
       animate="show"
     >
       <motion.div variants={item}>
-        <SummaryWidget />
+        <OrdersWidget />
       </motion.div>
       <motion.div variants={item}>
-        <OverdueWidget />
+        <ProductsWidget />
       </motion.div>
       <motion.div variants={item}>
-        <IssuesWidget />
+        <GainsWidget />
       </motion.div>
       <motion.div variants={item}>
-        <FeaturesWidget />
+        <CostsWidget />
       </motion.div>
       <motion.div variants={item} className="sm:col-span-2 md:col-span-4">
-        <GithubIssuesWidget />
+        <FinancialChartWidget />
       </motion.div>
       <motion.div variants={item} className="sm:col-span-2 md:col-span-4 lg:col-span-2">
         <TaskDistributionWidget />

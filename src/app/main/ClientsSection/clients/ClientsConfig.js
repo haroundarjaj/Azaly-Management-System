@@ -14,6 +14,7 @@ const ClientsConfig = {
     layout: {
       config: {},
     },
+    permissionName: 'CLIENT',
   },
   routes: [
     {

@@ -170,17 +170,19 @@ function ProductsGallery(props) {
                                         md={3}
                                         key={index}
                                     >
+                                        {console.log(product)}
+                                        {console.log(product)}
                                         <div className='flex flex-col justify-between items*-center mb-10' style={{ height: 350 }} >
                                             <div
                                                 className={selectedProducts.some(obj => obj.product.ref === product.ref) ? "flex justify-center items-center border-solid border-3 border-themePrimary rounded-md shadow-lg shadow-themePrimary-500" : "flex justify-center items-center"}
                                             >
                                                 {preview ? <img
-                                                    src={product.image}
+                                                    src={product.image || `${process.env.PUBLIC_URL}/assets/images/avatars/no-product-image.jpeg`}
                                                     alt={product.name}
                                                     style={{ maxWidth: "100%", maxHeight: 320 }}
                                                 /> :
                                                     <img
-                                                        src={product.image}
+                                                        src={product.image || `${process.env.PUBLIC_URL}/assets/images/avatars/no-product-image.jpeg`}
                                                         alt={product.name}
                                                         style={{ maxWidth: "100%", maxHeight: 320, cursor: "pointer" }}
                                                         onClick={() => handleSelectProduct(product)}

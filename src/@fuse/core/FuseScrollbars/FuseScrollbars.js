@@ -10,7 +10,7 @@ import withRouterAndRef from '../withRouterAndRef/withRouterAndRef';
 
 const Root = styled('div')(({ theme }) => ({
   overscrollBehavior: 'contain',
-  minHeight: '100%',
+  // minHeight: '100%',
 }));
 
 const md = new MobileDetect(window.navigator.userAgent);
@@ -47,7 +47,7 @@ const FuseScrollbars = forwardRef((props, ref) => {
       }
     });
     // eslint-disable-next-line
-    }, [ref]);
+  }, [ref]);
 
   const unHookUpEvents = useCallback(() => {
     handlerByEvent.current.forEach((value, key) => {
@@ -138,9 +138,9 @@ const FuseScrollbars = forwardRef((props, ref) => {
       style={
         props.customScrollbars && (props.enable || true) && !isMobile
           ? {
-              position: 'relative',
-              overflow: 'hidden!important',
-            }
+            position: 'relative',
+            overflow: 'hidden!important',
+          }
           : {}
       }
       ref={ref}

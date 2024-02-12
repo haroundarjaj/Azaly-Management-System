@@ -14,11 +14,14 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import jwtService from '../../auth/services/jwtService';
 import axios from 'axios';
 import AuthService from 'src/app/services/AuthService';
 import * as CryptoJS from 'crypto-js';
+import EncryptingTools from 'src/app/utils/EncryptingTools';
+import { IconButton, InputAdornment, Tooltip } from '@mui/material';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 /**
  * Form Validation Schema
@@ -46,17 +49,20 @@ function SignInPage() {
 
   const { isValid, dirtyFields, errors } = formState;
 
+  const [showPassword, setShowPassword] = useState(false);
+
   useEffect(() => {
     setValue('email', 'super@admin.com', { shouldDirty: true, shouldValidate: true });
     setValue('password', 'azalySuperAdmin', { shouldDirty: true, shouldValidate: true });
   }, [setValue]);
 
   function onSubmit({ email, password }) {
-    const key = CryptoJS.enc.Latin1.parse(process.env.REACT_APP_PASSWORD_SECRET_KEY);
-    var iv = CryptoJS.enc.Latin1.parse('0000000000000000');
-    var aesOptions = { mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7, iv: iv };
-    var passEncoded = CryptoJS.enc.Utf8.parse(password);
-    let encryptdPass = CryptoJS.AES.encrypt(passEncoded, key, aesOptions).toString();
+    // const key = CryptoJS.enc.Latin1.parse(process.env.REACT_APP_PASSWORD_SECRET_KEY);
+    // var iv = CryptoJS.enc.Latin1.parse('0000000000000000');
+    // var aesOptions = { mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7, iv: iv };
+    // var passEncoded = CryptoJS.enc.Utf8.parse(password);
+    // let encryptdPass = CryptoJS.AES.encrypt(passEncoded, key, aesOptions).toString();
+    const encryptdPass = EncryptingTools.encryptString(password);
     jwtService
       .signInWithEmail(email, encryptdPass)
       .then((user) => {
@@ -96,6 +102,13 @@ function SignInPage() {
           <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
             Sign in
           </Typography>
+          <div className="flex items-baseline mt-2 font-medium">
+            <Typography>Don't have an account?</Typography>
+            <Link className="ml-4" to="/sign-up">
+              Sign up
+            </Link>
+          </div>
+
           <form
             name="loginForm"
             noValidate
@@ -129,15 +142,48 @@ function SignInPage() {
                   {...field}
                   className="mb-24"
                   label="Password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   error={!!errors.password}
                   helperText={errors?.password?.message}
                   variant="outlined"
                   required
                   fullWidth
+                  InputProps={{ // <-- This is where the toggle button is added.
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Tooltip id="button-report" title={showPassword ? "Hide password" : "Show password"}>
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </Tooltip>
+                      </InputAdornment>
+                    )
+                  }}
                 />
               )}
             />
+
+            <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between">
+              <Controller
+                name="remember"
+                control={control}
+                render={({ field }) => (
+                  <FormControl>
+                    <FormControlLabel
+                      label="Remember me"
+                      control={<Checkbox size="small" {...field} />}
+                    />
+                  </FormControl>
+                )}
+              />
+
+              <Link className="text-md font-medium" to="/pages/auth/forgot-password">
+                Forgot password?
+              </Link>
+            </div>
             <Button
               variant="contained"
               color="secondary"
@@ -210,6 +256,9 @@ function SignInPage() {
           </div>
           <div className="text-4xl font-bold leading-none text-gray-100">
             <div>Azaly Management App</div>
+          </div>
+          <div className="mt-8 font-medium tracking-tight text-gray-400">
+            {`Developed by: Haroun Darjaj (DarTech)`}
           </div>
         </div>
       </Box>

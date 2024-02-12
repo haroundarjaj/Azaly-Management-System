@@ -14,6 +14,7 @@ const FeedstockConfig = {
     layout: {
       config: {},
     },
+    permissionName: 'FEEDSTOCK',
   },
   routes: [
     {

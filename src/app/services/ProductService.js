@@ -17,5 +17,7 @@ class ProductService {
 
     delete = (id) => axios.delete(`${productAPI}/delete/${id}`, { headers });
 
+    countAllProducts = () => axios.get(`${productAPI}/count-all`, { headers });
+
 }
 export default new ProductService();

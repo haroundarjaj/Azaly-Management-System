@@ -10,6 +10,7 @@ const locale = {
   wholesale_price: "سعر الجملة",
   product_type: "نوع المنتج",
   category: "الفئة",
+  categories: "الفئات",
   products_gallery: "معرض المنتجات",
   select_products: "اختيار المنتجات"
 }

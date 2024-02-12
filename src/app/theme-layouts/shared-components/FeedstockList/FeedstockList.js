@@ -114,7 +114,7 @@ function FeedstockList(props) {
                             <Typography variant="subtitle1" color="primary">{tGeneral("no_data_to_show")}</Typography>
                         </div>
                         :
-                        <TableContainer sx={{ maxHeight: 580 }}>
+                        <TableContainer sx={{ maxHeight: 430 }}>
                             <Table
                                 stickyHeader
                                 sx={{
@@ -154,7 +154,7 @@ function FeedstockList(props) {
                                             <TableCell>
                                                 <div className="flex justify-center items-center w-full">
                                                     <img
-                                                        src={item.image}
+                                                        src={item.image || `${process.env.PUBLIC_URL}/assets/images/avatars/no-product-image.jpeg`}
                                                         alt={item.name}
                                                         style={{ maxWidth: "100%", maxHeight: 100 }}
                                                     />

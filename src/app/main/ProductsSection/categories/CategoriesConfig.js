@@ -14,6 +14,7 @@ const CategoriesConfig = {
     layout: {
       config: {},
     },
+    permissionName: 'PRODUCT_CATEGORY'
   },
   routes: [
     {

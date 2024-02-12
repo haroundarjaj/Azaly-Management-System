@@ -19,5 +19,7 @@ class CategoryService {
 
     delete = (id) => axios.delete(`${categoryAPI}/delete/${id}`, { headers });
 
+    countAllCategories = () => axios.get(`${categoryAPI}/count-all`, { headers });
+
 }
 export default new CategoryService();

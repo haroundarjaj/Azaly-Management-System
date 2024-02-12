@@ -1,12 +1,20 @@
 import FuseUtils from '@fuse/utils';
 import AppContext from 'app/AppContext';
-import { Component } from 'react';
+import { Component, useContext } from 'react';
 import { matchRoutes } from 'react-router-dom';
 import withRouter from '@fuse/core/withRouter';
 import history from '@history';
+import { AbilityContext } from 'src/app/auth/Can';
+import AccessDeniedPage from 'src/app/main/403/AccessDeniedPage';
 
 let loginRedirectUrl = null;
+const allowedPaths = ["/", "/dashboard", "/sign-in", "/sign-up", "/sign-out", "/404", "/403"]
 
+function FuseAuthorizationFunc(props) {
+  const ability = useContext(AbilityContext);
+
+  return <FuseAuthorization {...props} ability={ability} />
+}
 class FuseAuthorization extends Component {
   constructor(props, context) {
     super(props);
@@ -19,8 +27,10 @@ class FuseAuthorization extends Component {
   }
 
   componentDidMount() {
-    if (!localStorage.getItem('user') || !this.state.accessGranted) {
+    if (!localStorage.getItem('user')) {
       this.redirectRoute();
+    } else if (!this.state.accessGranted) {
+      history.push('/403')
     }
   }
 
@@ -29,40 +39,35 @@ class FuseAuthorization extends Component {
   }
 
   componentDidUpdate() {
-    console.log("this.state.accessGranted")
-    console.log(this.state.accessGranted)
-    if (!localStorage.getItem('user') || !this.state.accessGranted) {
+    if (!localStorage.getItem('user')) {
       this.redirectRoute();
+    }
+    else if (!this.state.accessGranted) {
+      history.push('/403')
     }
   }
 
   static getDerivedStateFromProps(props, state) {
     const { location } = props;
     const { pathname } = location;
-    const userRole = JSON.parse(localStorage.getItem('user'))?.role;
     const matchedRoutes = matchRoutes(state.routes, pathname);
     const matched = matchedRoutes ? matchedRoutes[0] : false;
-
     return {
-      accessGranted: matched ? FuseUtils.hasPermission(matched.route.auth, userRole) : true,
+      accessGranted: allowedPaths.includes(pathname) || props.ability.can("ACCESS", matched.route?.settings?.permissionName),
     };
   }
 
   redirectRoute() {
     const { location } = this.props;
     const { pathname } = location;
-    const userRole = JSON.parse(localStorage.getItem('user'))?.role;
+    const userRoles = JSON.parse(localStorage.getItem('user'))?.roles;
 
     const redirectUrl = loginRedirectUrl || this.defaultLoginRedirectUrl;
-    console.log(redirectUrl)
     /*
         User is guest
         Redirect to Login Page
         */
-    console.log(userRole)
-    console.log(!userRole)
-    if (!userRole || userRole.length === 0) {
-      console.log("first conditional redirect")
+    if (!userRoles || userRoles.length === 0) {
       setTimeout(() => history.push('/sign-in'), 0);
       loginRedirectUrl = pathname;
     } else {
@@ -71,7 +76,6 @@ class FuseAuthorization extends Component {
         User must be on unAuthorized page or just logged in
         Redirect to dashboard or loginRedirectUrl
         */
-      console.log("second conditional redirect")
       setTimeout(() => history.push(redirectUrl), 0);
       loginRedirectUrl = this.defaultLoginRedirectUrl;
     }
@@ -79,10 +83,11 @@ class FuseAuthorization extends Component {
 
   render() {
     // console.info('Fuse Authorization rendered', this.state.accessGranted);
+    // return this.state.accessGranted ? <>{this.props.children}</> : null;
     return this.state.accessGranted ? <>{this.props.children}</> : null;
   }
 }
 
 FuseAuthorization.contextType = AppContext;
 
-export default withRouter(FuseAuthorization);
+export default withRouter(FuseAuthorizationFunc);

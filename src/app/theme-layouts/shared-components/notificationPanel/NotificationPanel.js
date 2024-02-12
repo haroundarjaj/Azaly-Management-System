@@ -44,9 +44,9 @@ function NotificationPanel(props) {
 
   useEffect(() => {
     /*
-		Get Notifications from db
-		 */
-    dispatch(getNotifications());
+    Get Notifications from db
+     */
+    // dispatch(getNotifications());
   }, [dispatch]);
 
   useEffect(() => {
@@ -54,17 +54,17 @@ function NotificationPanel(props) {
       dispatch(closeNotificationPanel());
     }
     // eslint-disable-next-line
-	}, [location, dispatch]);
+  }, [location, dispatch]);
 
   function handleClose() {
     dispatch(closeNotificationPanel());
   }
 
   function handleDismiss(id) {
-    dispatch(dismissItem(id));
+    // dispatch(dismissItem(id));
   }
   function handleDismissAll() {
-    dispatch(dismissAll());
+    // dispatch(dismissAll());
   }
 
   function demoNotification() {
@@ -83,14 +83,14 @@ function NotificationPanel(props) {
       ),
     });
 
-    dispatch(addNotification(item));
+    // dispatch(addNotification(item));
   }
 
   return (
     <StyledSwipeableDrawer
       open={state}
       anchor="right"
-      onOpen={(ev) => {}}
+      onOpen={(ev) => { }}
       onClose={(ev) => dispatch(toggleNotificationPanel())}
       disableSwipeToOpen
     >
